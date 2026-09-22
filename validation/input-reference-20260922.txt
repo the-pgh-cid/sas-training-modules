@@ -1,0 +1,13 @@
+LOCAL PYTHON REFERENCE: MODULE 08 INPUT
+Python 3.12.14; pandas 2.2.3; LC_TIME=C
+Hand-authored reference and teaching counterexamples only.
+No SAS execution, Bedrock calls, or original model-response execution.
+PASS numeric values: [123, 456, 789]; dtype=int64
+PASS calendar dates: ['2023-01-15', '2023-02-01', '2023-12-31']; dtype=datetime64[ns]
+PASS source string columns and row order preserved; result columns added.
+PASS independent integer/calendar-component reference agrees with pandas parsing.
+CHECK matching display strings fail numeric/datetime type requirements.
+PASS formatting the comparison did not replace the stored datetime column.
+CHECK outside fixture: defaults reject malformed input; explicit coerce produces missing values.
+No claim that pandas and SAS share invalid-input behavior or all informat semantics.
+RESULT: local reference/counterexample checks passed; historical trial execution remains reported.

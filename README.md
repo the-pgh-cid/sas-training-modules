@@ -1,6 +1,6 @@
 # SAS to Python: LLM collaboration modules
 
-> **PDF update, 22 September 2026:** MEAN and SUBSTR now include the previously delivered v0.2.0 PDFs; LENGTH and CAT/CATX now include reported A/B results. See [PDF-BUILD.md](PDF-BUILD.md) for current PDF status, evidence limits and rebuild instructions. The edition notes below describe the original 18 September package.
+> **PDF update, 22 September 2026:** All ten module PDFs are now at teaching edition v0.2.0. MEAN and SUBSTR retain the previously delivered PDFs; modules 03-10 include reported A/B results. See [PDF-BUILD.md](PDF-BUILD.md) for current PDF status, evidence limits and rebuild instructions. The edition notes below describe the original 18 September package.
 
 Version 0.1.0 | 18 September 2026
 

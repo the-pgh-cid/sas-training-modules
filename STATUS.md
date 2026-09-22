@@ -1,5 +1,7 @@
 # Onboarding Materials Status
 
+> **Current PDF status, 22 September 2026:** All ten module PDFs are at teaching edition v0.2.0; modules 03-10 now contain the reported trial results. Use [PDF-BUILD.md](PDF-BUILD.md) for current evidence limits and rebuild instructions. The status, paths and predictions below are historical planning notes, not the current trial status.
+
 **Created**: 2026-09-17 09:35am
 **Purpose**: Trust-building materials for LLM-assisted SAS conversion
 
