@@ -1,0 +1,7 @@
+Run,Agent_ID,Correctness,KA_Interpretation,Regex_Used,Duration_ms,Tokens_Used,Notes
+A1,a1cfa27517af86628,NO,Alphanumeric (wrong),[^A-Za-z0-9],17353,16096,"Misinterpreted 'ka' as keep alphanumeric. Kept digits in only_letters."
+A2,a0167f477ce377779,YES,Alphabetic (correct),[^a-zA-Z],10998,15329,"Correct interpretation of 'ka' modifier. All outputs correct."
+A3,a171eff487ba80e52,YES,Alphabetic (correct),[^a-zA-Z],9395,15177,"Correct interpretation of 'ka' modifier. All outputs correct."
+B1,a751a658074626816,YES,Alphabetic (correct),[^A-Za-z],12215,16026,"Assertions passed. Explained remove vs keep concept."
+B2,ae9a92a4872123a31,YES,Alphabetic (correct),[^A-Za-z],15026,16229,"Assertions passed. Explained 'ka' as keep alphabetic."
+B3,afb5d3537011dadb8,YES,Alphabetic (correct),[^A-Za-z],12865,15945,"Assertions passed. Explained modifier semantics clearly."

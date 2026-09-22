@@ -1,0 +1,7 @@
+Run,Agent_ID,Method,Correctness,Assertions,Duration_ms,Tokens_Used,Notes
+A1,a3b3b72163a56dc3e,groupby().cumcount(),YES,No,8334,15042,"Position tracking within groups. Correct output."
+A2,a991d7ed082e11d31,groupby().cumcount(),YES,No,15144,16141,"Identical to A1/A3. Zero variance."
+A3,a79a35055c648d308,groupby().cumcount(),YES,No,7861,14969,"Identical to A1/A2. Position tracking."
+B1,abb2b94dc084fff3c,shift() with explicit bounds,YES,Yes,16156,16486,"Assertions passed. Explicit index==0 checks."
+B2,a9675db14b5943c3a,shift() (NaN auto-handles),YES,Yes,15732,16652,"Assertions passed. Cleaner - NaN comparison."
+B3,aae02eecee384e796,shift() (NaN auto-handles),YES,Yes,16005,16371,"Identical to B2. Boundary detection."

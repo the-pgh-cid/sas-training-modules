@@ -1,0 +1,7 @@
+Run,Agent_ID,Method,Correctness,Bankers_Rounding_Mentioned,Understanding_Correct,Alternative_Code_Provided,Duration_ms,Tokens_Used,Notes
+A1,a57a490aa00ec5fde,.round(),YES,Yes,NO,No,7568,14828,"Correct output. WRONG note: claimed SAS uses banker's rounding."
+A2,a2baf8ba795a642b2,.round(),YES,Yes,YES,Yes,9000,14943,"Correct output. Correct understanding. Provided np.floor/ceil alternative."
+A3,aea67b878bc4b3bdb,.round(),YES,Yes,YES,No,10674,15155,"Correct output. Correct understanding. Noted test data avoids .5 cases."
+B1,aa858a7540fd569e1,.round(0),YES,Scope note,N/A,No,7044,14957,"Assertion passed. Scoped out halfway cases explicitly."
+B2,aefea6657b5ac16df,.round(0),YES,Scope note,N/A,No,13374,15602,"Assertion passed. Scoped out halfway cases explicitly."
+B3,a6dc047cb7b4b6932,.round(0),YES,Scope note,N/A,No,11325,15463,"Assertion passed. Scoped out halfway cases explicitly."

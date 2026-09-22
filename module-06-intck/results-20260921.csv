@@ -1,0 +1,7 @@
+Run,Agent_ID,Method,Correctness,Assertions,INTCK_Explained,Duration_ms,Tokens_Used,Notes
+A1,a1f41ab861c4b7fa7,Custom functions,YES,No,Yes,11517,15504,"Used intck_day/month/year functions with .apply(). Slower but clear."
+A2,a0423c2d2a6ca22b7,Vectorized inline,YES,No,Yes,16103,16272,"Direct vectorized calculation. Faster and more concise."
+A3,af513deb76623ebae,Vectorized inline,YES,No,Yes,13178,15812,"Direct vectorized calculation. Same approach as A2."
+B1,ab07b513d032e5697,Vectorized inline,YES,Yes,Yes,15024,16220,"Assertions passed. Explained boundary vs duration counting."
+B2,a91cbaf68cebaec23,Vectorized inline,YES,Yes,Yes,13115,16060,"Assertions passed. Explained boundary crossing logic."
+B3,a2c24537b962c67b4,Vectorized inline,YES,Yes,Yes,17030,16709,"Assertions passed. Explained discrete interval counting."

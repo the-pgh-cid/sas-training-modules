@@ -1,0 +1,7 @@
+Run,Agent_ID,Method,Correctness,Assertions,Duration_ms,Tokens_Used,Notes
+A1,afa19228518f9fe1a,pd.to_numeric + pd.to_datetime,YES,No,7036,14921,"Standard conversion methods. Zero variance."
+A2,aa59dd59a9a8e9ff8,pd.to_numeric + pd.to_datetime,YES,No,12247,15357,"Identical to A1/A3. Strong priors."
+A3,afacb47d488f82017,pd.to_numeric + pd.to_datetime,YES,No,8516,15004,"Identical to A1/A2. Zero variance."
+B1,a6d965acf72b5325d,pd.to_numeric + pd.to_datetime,YES,Yes,14180,16052,"Assertions passed. Explained format."
+B2,aca1e9e1817d9038f,pd.to_numeric + pd.to_datetime,YES,Yes,16737,16230,"Assertions passed. Zero variance."
+B3,a6d26e110e47bf15f,pd.to_numeric + pd.to_datetime,YES,Yes,11946,15724,"Assertions passed. Identical to B1/B2."

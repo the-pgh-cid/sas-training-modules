@@ -1,0 +1,7 @@
+Run,Agent_ID,Method,Correctness,Assertions,Duration_ms,Tokens_Used,Notes
+A1,a6a06afb22aca16d6,shift(1) + shift(2),YES,No,8642,15109,"Standard lag operations. Zero variance."
+A2,ac3027e296f7b8135,shift(1) + shift(2),YES,No,10134,15247,"Identical to A1/A3."
+A3,a4851330992b2f077,shift(1) + shift(2),YES,No,8347,14940,"Identical to A1/A2."
+B1,a83b0e4d07af38056,shift(1) + shift(2),YES,Yes,14201,16393,"Assertions passed. Explained missing change."
+B2,a5057e8e077f3c035,shift(1) + shift(2),YES,Yes,11541,16219,"Assertions passed. Zero variance."
+B3,ac1b0e61ed20be130,shift(1) + shift(2),YES,Yes,15057,16381,"Assertions passed. Identical to B1/B2."
