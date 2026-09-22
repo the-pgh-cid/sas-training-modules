@@ -1,0 +1,15 @@
+LOCAL PYTHON REFERENCE: MODULE 10 LAG / 2026-09-22
+Python 3.12.14; pandas 2.2.3
+Reference and counterexamples only; not SAS execution or original Bedrock scripts.
+PASS dtype=int64: full five-row table, original ids, all missing positions, independent LAG/LAG2 queues.
+PASS dtype=Int64: full five-row table, original ids, all missing positions, independent LAG/LAG2 queues.
+EXPECTED ANTI-PATTERN: fillna(0) creates first change=10 instead of missing.
+EXPECTED ANTI-PATTERN: wrapping the final value produces first prior=20 instead of missing.
+EXPECTED ANTI-PATTERN: sorting by value changes id 3 change from -3 to 2.
+Conditional queue (execute rows 2,4): [None, None, None, 15, None]
+Unconditional row shift then mask:    [None, 10, None, 12, None]
+PASS scope counterexample: conditional call history differs from original-row shift.
+prev_value:  [None, 10, 15, 12, 18]
+prev2_value: [None, None, 10, 15, 12]
+change:      [None, 5, -3, 6, 2]
+All local checks passed. Shift equivalence is limited to the supplied per-row calls.

@@ -1,5 +1,7 @@
 # Testing Guide for Onboarding Examples
 
+> **Current edition, 22 September 2026:** Use each module's `prompts.md` and paired SAS snippet for exact trial inputs, and [PDF-BUILD.md](PDF-BUILD.md) for reported results and their limits. The paths and predicted model behavior below belong to the original planning guide; they are not findings from the completed trial summaries.
+
 ## Quick Start
 
 Each example has two files:

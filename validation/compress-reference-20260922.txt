@@ -1,0 +1,14 @@
+LOCAL PYTHON REFERENCE: MODULE 07 COMPRESS
+Python 3.12.14; pandas 2.2.3
+Hand-authored reference and reconstructed summary expression only.
+No SAS execution, Bedrock calls, or original model-response execution.
+PASS no_spaces: ['ABC123XYZ', 'Phone:555-1234', 'ID-2023-Q4']
+PASS no_digits: ['ABC  XYZ', 'Phone: -', 'ID--Q']
+PASS only_letters: ['ABCXYZ', 'Phone', 'IDQ']
+PASS original inputs and row order preserved; both internal spaces retained.
+CHECK reported A1 expression: ['ABC123XYZ', 'Phone5551234', 'ID2023Q4']; all 3 rows fail letters-only.
+PASS A2/A3 reported letter-class spelling matches the B pattern for this fixture.
+PASS extra cases: empty input, digits only, mixed case, punctuation, and a tab.
+CHECK literal-space removal retains a tab; broader whitespace removal would differ.
+PASS fixture content agrees after omitting width-20 trailing storage padding.
+RESULT: local reference/counterexample checks passed; historical trial execution remains reported.

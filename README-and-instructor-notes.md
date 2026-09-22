@@ -1,5 +1,7 @@
 # SAS to Python: LLM collaboration modules
 
+> **PDF update, 22 September 2026:** All ten module PDFs are at teaching edition v0.2.0. See [PDF-BUILD.md](PDF-BUILD.md) for current reported results, evidence limits and rebuild instructions. The notes below describe the original 18 September edition.
+
 Version 0.1.0 | 18 September 2026
 
 Ten self-contained modules, three PDF pages each: (1) example and setup, (2) Prompt A and why, (3) Prompt B and why. Modules 01-05 are the starting sequence. Modules 06-10 are continuation examples; macro-conversion landmines remain for a later course.

@@ -1,0 +1,16 @@
+LOCAL PYTHON REFERENCE: MODULE 09 FIRST./LAST. / 2026-09-22
+Python 3.12.14; pandas 2.2.3
+Reference and counterexamples only; not SAS execution or original Bedrock scripts.
+PASS dtype=object: full six-row table, id order, integer flags, singleton, independent group counts.
+PASS object reconstruction: unguarded B2/B3 expressions match this fixture.
+PASS dtype=string: full six-row table, id order, integer flags, singleton, independent group counts.
+Nullable string unguarded first comparisons: [<NA>, False, True, False, False, True]
+Nullable string unguarded last comparisons: [False, True, False, False, True, <NA>]
+EXPECTED COUNTEREXAMPLE: ValueError: cannot convert NA to integer
+EXPECTED COUNTEREXAMPLE: ValueError: cannot convert NA to integer
+PASS positional endpoint handling also survives non-default index labels.
+EXPECTED ANTI-PATTERN: keeping only boundary rows drops id 4; remaining ids=[1, 2, 3, 5, 6].
+first_flag: [1, 0, 1, 0, 0, 1]
+last_flag:  [0, 1, 0, 0, 1, 1]
+Scope: single nonmissing key, sorted fixture; no multi-key/NOTSORTED equivalence claimed.
+All local checks passed. Reported B2/B3 output matches do not satisfy explicit-endpoint wording.

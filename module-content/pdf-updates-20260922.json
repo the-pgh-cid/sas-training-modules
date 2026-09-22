@@ -22,6 +22,37 @@
       "path": "module-04-cat/module-04-cat.pdf",
       "sha256": "1960d9f22843c51797087f68aa878e7b9f914e2e655598eb147e28c87c9008bd",
       "provenance": "newly populated PDF from reported trials; local reference checked separately"
+    },
+    {
+      "path": "module-05-round/module-05-round.pdf",
+      "sha256": "bda5c363b826941ca3d1674a3b0af5e07bfe8935e94e814a655d52a895003847",
+      "provenance": "populated from reported 2026-09-21 trials; local references and counterexamples checked separately"
+    },
+    {
+      "path": "module-06-intck/module-06-intck.pdf",
+      "sha256": "5d3fe22b65b808bcf801c248f5b03574dc56f0256c25955f9a2491ae1000c180",
+      "provenance": "populated from reported 2026-09-21 trials; local references and counterexamples checked separately"
+    },
+    {
+      "path": "module-07-compress/module-07-compress.pdf",
+      "sha256": "954ee86272d0501e08f825c0eec3dd9a5b40320b2c508a49680aa6ff5a5fdf59",
+      "provenance": "populated from reported 2026-09-21 trials; local references and counterexamples checked separately"
+    },
+    {
+      "path": "module-08-input/module-08-input.pdf",
+      "sha256": "5bb3a6e6f21ea98a48592fc312cbba51a349aa7e83cc5bf1e6ea7ba765136193",
+      "provenance": "populated from reported 2026-09-21 trials; local references and counterexamples checked separately"
+    },
+    {
+      "path": "module-09-firstvar/module-09-firstvar.pdf",
+      "sha256": "33d5182e949bf7631d4f98baa9a2a0b05842e1cfe6d8bbb4ff81ef817f2ba60d",
+      "provenance": "populated from reported 2026-09-21 trials; local references and counterexamples checked separately"
+    },
+    {
+      "path": "module-10-lag/module-10-lag.pdf",
+      "sha256": "96e76997ef4a1b01aa243fc1e8d6aeab9b34fad69ef536e3fa83ce6f3a547617",
+      "provenance": "populated from reported 2026-09-21 trials; local references and counterexamples checked separately"
     }
-  ]
+  ],
+  "repository_base_commit": "c8296213ce5a834eb4c279330a7aac6093d565d9"
 }

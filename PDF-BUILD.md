@@ -10,7 +10,12 @@
 | 02 SUBSTR | Previously delivered PDF imported unchanged | Six reported trials; complete raw transcripts absent from the repository |
 | 03 LENGTH | Populated with test setup and A/B result tables | Six reported trials; local reference and counterexamples checked separately |
 | 04 CAT/CATX | Populated with test setup and A/B result tables | Six reported trials; A3 readable-name agreement distinguished from missing stored widths |
-| 05-10 | Existing PDFs retained | Reported result files are present; PDF evidence updates still pending |
+| [05 ROUND](module-05-round/module-05-round.pdf) | Populated with test setup and A/B result tables | A 3/3 and B 3/3 reported numeric matches; A1's explanation is incorrect |
+| [06 INTCK](module-06-intck/module-06-intck.pdf) | Populated with test setup and A/B result tables | A 3/3 and B 3/3 reported matches; different A methods preserve boundary counting |
+| [07 COMPRESS](module-07-compress/module-07-compress.pdf) | Populated with test setup and A/B result tables | A 2/3 and B 3/3 reported matches; A1 retains digits for `ka` |
+| [08 INPUT](module-08-input/module-08-input.pdf) | Populated with test setup and A/B result tables | A 3/3 and B 3/3 reported matches; value and type checks remain distinct |
+| [09 FIRST./LAST.](module-09-firstvar/module-09-firstvar.pdf) | Populated with test setup, A/B results and compliance distinction | A 3/3 and B 3/3 reported output matches; B2/B3 omit explicit endpoint handling |
+| [10 LAG](module-10-lag/module-10-lag.pdf) | Populated with test setup and A/B result tables | A 3/3 and B 3/3 reported matches; shift equivalence is scoped to this per-row program |
 
 The original `module-content/modules-v0.1.0.json` remains the baseline teaching source. The scripts in `tools/` implement the PDF updates without silently changing the trial prompts. Original source notes, CSV files and trial logs are retained as evidence, even where the PDF's interpretation is more limited.
 
@@ -30,8 +35,20 @@ python tools/build_module_01.py
 python tools/build_module_02.py
 python tools/build_module_03.py
 python tools/build_module_04.py
+python tools/build_module_05.py
+python tools/build_module_06.py
+python tools/build_module_07.py
+python tools/build_module_08.py
+python tools/build_module_09.py
+python tools/build_module_10.py
 python validation/length-reference-20260922.py
 python validation/cat-reference-20260922.py
+python validation/round-reference-20260922.py
+python validation/intck-reference-20260922.py
+python validation/compress-reference-20260922.py
+python validation/input-reference-20260922.py
+python validation/firstvar-reference-20260922.py
+python validation/lag-reference-20260922.py
 ```
 
 The default output replaces the PDF in its module folder. To generate a separate review copy:
@@ -46,8 +63,13 @@ The rebuilds reproduce content and layout. PDF timestamps and document identifie
 
 - `module-03-length/evidence-review-20260922.md` records the evidence boundary and interpretation.
 - `module-04-cat/evidence-review-20260922.md` records the CAT/CATX evidence boundary and interpretation corrections. Reported full matches are A 0/3 and B 3/3; complete raw responses and execution logs are absent.
+- Each module 05-10 has an `evidence-review-20260922.md` explaining which reported results support the PDF and where the original analysis needs narrower wording. Original CSVs, trial logs, prompts and SAS fixtures remain unchanged.
+- The module 05-10 trial summaries report Claude Sonnet 4.5, Claude Code 2.1.278, AWS Bedrock GovCloud, `effortLevel=high`, prompt v0.1.0, and six fresh parallel agents on 21 September. Complete raw responses and separate execution logs are not present in the repository. Reported assertion passes are not independently authenticated executions.
+- A matching output, a correct explanation and compliance with a requested method are separate checks. ROUND A1 and FIRST./LAST. B2/B3 make these distinctions visible. A shared method does not establish identical responses, and three runs per prompt do not guarantee future outcomes.
 - `validation/length-reference-20260922.txt` records local reference checks, not original model-response execution.
 - `validation/cat-reference-20260922.txt` records exact stored-value checks and locally reconstructed counterexamples, not original trial execution.
+- The corresponding `validation/{round,intck,compress,input,firstvar,lag}-reference-20260922.py` scripts and `.txt` outputs check local reference values and selected counterexamples. They do not replace the original model responses or establish SAS execution.
+- [Modules 05-10 release review](validation/pdf-updates-05-10-review-20260922.md) records the 18-page visual review, source/prompt preservation, local validation and pixel-identical rebuild checks.
 - `module-content/pdf-updates-20260922.json` identifies the baseline and SHA-256 hashes of the delivered PDFs.
 - `file-hashes.json` is retained as the original package manifest, not a current whole-repository manifest.
 
