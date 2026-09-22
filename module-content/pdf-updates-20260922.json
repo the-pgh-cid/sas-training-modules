@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "a17fc462c76c4148ea9563914f6f5cd95a1191b2",
+  "pdf_edition": "0.2.0",
+  "update_date": "2026-09-22",
+  "files": [
+    {
+      "path": "module-01-mean/module-01-mean.pdf",
+      "sha256": "99b6422ed67189aeed5d6b8c906f11ac7551c735f6917ea86630b3f6f0a0e0a6",
+      "provenance": "unchanged import of previously delivered PDF"
+    },
+    {
+      "path": "module-02-substr/module-02-substr.pdf",
+      "sha256": "aa33bd30ccc2a296ff2b0a1d3aae84c31978d22d3cd95f45d7c4c49b5b557aef",
+      "provenance": "unchanged import of previously delivered PDF"
+    },
+    {
+      "path": "module-03-length/module-03-length.pdf",
+      "sha256": "ded69838d6e7db28679024922a30e909d2712043c45f88f9ff18a65da8d3074b",
+      "provenance": "newly populated PDF from reported trials"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+PASS: five reference values, width 10, blank storage and unchanged source text.
+PASS: reconstructed A-style example matches values but fails storage and missing checks.
+'ABC   ': direct len=6; expected LENGTH=3
+'': direct len=0; expected LENGTH=1
+' ABC ': direct len=5; expected LENGTH=4
+PASS: trailing ordinary spaces, all blanks, leading spaces and tab distinction.
+Scope: supplied ASCII fixture and stated counterexamples; SAS execution pending.
