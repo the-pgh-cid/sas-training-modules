@@ -1,5 +1,7 @@
 # SAS to Python: LLM collaboration modules
 
+> **PDF update, 22 September 2026:** MEAN and SUBSTR now include the previously delivered v0.2.0 PDFs; LENGTH now includes reported A/B results. See [PDF-BUILD.md](PDF-BUILD.md) for current PDF status, evidence limits and rebuild instructions. The edition notes below describe the original 18 September package.
+
 Version 0.1.0 | 18 September 2026
 
 Ten self-contained modules, three PDF pages each: (1) example and setup, (2) Prompt A and why, (3) Prompt B and why. Modules 01-05 are the starting sequence. Modules 06-10 are continuation examples; macro-conversion landmines remain for a later course.
