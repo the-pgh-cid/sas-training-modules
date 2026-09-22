@@ -1,0 +1,7 @@
+Run,Agent_ID,Library,Method,Row1_Correct,Row2_Correct,Row3_Correct,Overall_Match,Duration_ms,Tokens_Used,Notes
+A1,a4ee92c4e605edc08,pandas,bracket_notation,YES,NO,YES,PARTIAL,9021,14537,"Row 2 from_seventh: oWorld vs orld"
+A2,ada64b20d24267d7c,pandas,bracket_notation,YES,NO,NO,PARTIAL,9920,14640,"Row 2 from_seventh: World vs orld; Row 3 middle: -to- vs to-P"
+A3,aeacdfebb7b2ca0a4,pandas,bracket_notation,YES,NO,NO,PARTIAL,8702,14614,"Row 2 from_seventh: oWorld vs orld; Row 3 multiple errors"
+B1,a77f46a427c1de0f4,pandas,str_slice,YES,YES,YES,YES,18110,15943,All assertions passed
+B2,a0badcf06c82bf7d2,pandas,str_slice,YES,YES,YES,YES,20552,16674,All assertions passed
+B3,a1d738c705a781e19,pandas,str_slice,YES,YES,YES,YES,27804,17332,"All assertions passed (explicit statement)"

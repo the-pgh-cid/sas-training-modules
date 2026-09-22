@@ -1,0 +1,7 @@
+Run,Agent_ID,Library,Method,Numeric_Match,Semantic_Correct,Duration_ms,Tokens_Used,Notes
+A1,abd1d00d66eb0c01a,pandas,direct_str_len,YES,NO,15531,14880,"No padding, no rstrip, no clip. Lucky correctness - broken implementation."
+A2,ae15253c3338f1d4c,pandas,direct_str_len,YES,NO,8664,14399,"No padding, no rstrip, no clip. Mentioned padding in notes but didn't implement."
+A3,a0bad645677c9e7d5,pandas,direct_str_len,YES,NO,10506,14503,"No padding, no rstrip, no clip. Mentioned padding in notes but didn't implement."
+B1,ade2563da108c7d1a,pandas,rstrip_clip,YES,YES,13262,15240,"Correct implementation with padding, rstrip, clip. Assertions passed."
+B2,a05b398745e3c36b2,pandas,rstrip_clip,YES,YES,13556,15140,"Correct implementation with padding, rstrip, clip. Assertions passed."
+B3,af47d2df4c6fa6f16,pandas,rstrip_clip,YES,YES,15006,15320,"Correct implementation with padding, rstrip, clip. Visual representation included."

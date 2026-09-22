@@ -1,0 +1,7 @@
+Run,Agent_ID,CAT_Method,CATX_Method,Correctness,Duration_ms,Tokens_Used,Notes
+A1,aaaf33cd4b9bea094,+ concatenation,+ with spaces,NO,19620,15438,"No padding. CATX wrong - includes '.' literally with spaces."
+A2,a7bc6e9c8c394a9e4,+ concatenation,TWO approaches,NO,10295,14544,"No padding. Showed both wrong and partially-right CATX. Model uncertainty."
+A3,a0a314d4a175f98fd,+ concatenation,List comp filter,NO,9164,14430,"No padding. CATX filters '.' but missing strip/padding. Partially correct."
+B1,a5885545bafc87721,Padded concat,Strip/filter/join,YES,26966,17094,"All assertions passed. Correct padding and CATX logic."
+B2,af1a64819ff492972,Padded concat,Strip/filter/join,YES,33541,17749,"All assertions passed. Correct implementation."
+B3,ae5043f3add772aa5,Padded concat,Strip/filter/join,YES,29544,17396,"All assertions passed. Correct implementation with visual representation."
