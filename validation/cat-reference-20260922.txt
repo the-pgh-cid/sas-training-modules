@@ -1,0 +1,13 @@
+LOCAL PYTHON REFERENCE: MODULE 04 CAT/CATX
+Python 3.12.14; pandas 2.2.3
+Hand-authored fixture checks and reconstructed summary snippets only.
+No SAS execution, Bedrock calls, or original model-response execution.
+PASS row 1: CAT=John____Q_______Public__; CATX='John Q Public'; stored widths=24/24
+PASS row 2: CAT=Jane____________Doe_____; CATX='Jane Doe'; stored widths=24/24
+PASS row 3: CAT=Bob_____________Smith___; CATX='Bob Smith'; stored widths=24/24
+PASS input widths=8; missing middle fields=8 spaces; row order and storage preserved.
+CHECK summary recipes: raw + loses CAT padding; unfiltered join retains missing dots.
+CHECK filter/join: readable names match; stored widths are 13, 8, 9 instead of 24.
+PASS CATX checks: ordinary outer spaces, all-blank fields, internal spaces, tabs, literal dot.
+PASS +, join and f-strings agree on the same padded CAT inputs.
+RESULT: local reference and counterexample checks passed; reported A/B trials remain separate.
