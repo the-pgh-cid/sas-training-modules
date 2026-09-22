@@ -1,0 +1,11 @@
+LOCAL PYTHON REFERENCE VALIDATION: EXAMPLES 01-05
+Python 3.12.14; pandas 2.2.3; NumPy 2.3.5
+Scope: hand-authored translations and module expected tables.
+No SAS execution, no Bedrock execution, no repeated LLM trials.
+PASS 01 MEAN: [2.0, 5.0, NaN]; missing cases and input preservation checked.
+PASS 02 SUBSTR: all nine visible outputs; widths 3/4/14 checked.
+PASS 03 LENGTH: [3, 3, 10, 1, 1]; blank case and leading-space preservation checked.
+PASS 04 CAT/CATX: exact padded strings, blank middle fields, width 24 checked.
+PASS 05 ROUND: [2, 3, -1, -2, 3]; supplied cases only, input unchanged.
+RESULT: all five local reference checks passed.
+Remaining: run revised SAS sources; collect independent revised A/B Bedrock trials.

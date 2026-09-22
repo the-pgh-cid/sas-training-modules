@@ -1,0 +1,61 @@
+{
+  "observed_a": "All three original A responses selected pandas and the same row-wise mean calculation. They displayed 2.0, 5.0, and NaN. Wording and code layout differed; A1 also offered a second version. These are displayed answers: the supplied A transcripts do not show the code being executed.",
+  "observed_b": "B1 created a Python file and reported a successful run. B2 and B3 encountered a write error, then read and ran an existing file. This shows a useful collaboration lesson: clearing the conversation did not remove the saved code. These records do not establish three independent B conversions.",
+  "caveat": "The MEAN records show agreement in the main calculation, not identical responses or a guaranteed result. Their design cannot establish a causal improvement from A to B: B2 and B3 reused existing code, and shell commands and output are collapsed. Keep correctness, numerical agreement, response wording, and agent actions separate when comparing runs.",
+  "provenance_note": "Original MEAN evidence consists of six user-supplied transcripts dated 2026-09-17 by filename. Their headers identify Claude Code v2.1.274, Sonnet 4.5, and Amazon Bedrock. The broader authoring-session export identifies Claude Code v2.1.276. These original records accompany the teaching modules as historical evidence; they are not tests of any revised teaching prompt or revised SAS fixture. Revised prompts and examples 02-10 require fresh A/B trials before an observed-outcome claim is added. No original run is silently replaced or relabeled.",
+  "trial_inventory": [
+    {
+      "file": "20260917-e1-mean-pA-t1.txt",
+      "prompt": "A",
+      "run": 1,
+      "observed": "Responded with pandas/NumPy code, selected test[['x', 'y', 'z']].mean(axis=1), and displayed average values 2.0, 5.0, NaN. Also supplied an alternative list-based DataFrame setup using the same calculation. No recorded tool execution."
+    },
+    {
+      "file": "20260917-e1-mean-pA-t2.txt",
+      "prompt": "A",
+      "run": 2,
+      "observed": "Responded with pandas/NumPy code using an inline dictionary in DataFrame construction, selected the same .mean(axis=1) calculation, and displayed average values 2.0, 5.0, NaN. No recorded tool execution."
+    },
+    {
+      "file": "20260917-e1-mean-pA-t3.txt",
+      "prompt": "A",
+      "run": 3,
+      "observed": "Responded with pandas/NumPy code using a separately assigned data dictionary, selected the same .mean(axis=1) calculation, and displayed average values 2.0, 5.0, NaN. Explanatory wording differs from A1 and A2. No recorded tool execution."
+    },
+    {
+      "file": "20260917-e1-mean-pB-t1.txt",
+      "prompt": "B",
+      "run": 1,
+      "observed": "Write(sas_to_pandas_mean.py) succeeded. Only the initial source lines are expanded. Transcript reports two shell commands, with their details collapsed. Final prose claims row-wise mean with skipna=True and expected values 2.0, 5.0, NaN. The visible export does not contain complete created source or raw execution output."
+    },
+    {
+      "file": "20260917-e1-mean-pB-t2.txt",
+      "prompt": "B",
+      "run": 2,
+      "observed": "Transcript starts with /clear. Write(sas_to_pandas_mean.py) reports an error. Subsequent summary records a file read and a directory listing; the agent says the file already exists and runs it. One shell command is reported with details collapsed. Final prose claims expected values. This is reuse of an existing file, not an independently visible fresh conversion."
+    },
+    {
+      "file": "20260917-e1-mean-pB-t3.txt",
+      "prompt": "B",
+      "run": 3,
+      "observed": "Transcript starts with /clear. Write(sas_to_pandas_mean.py) reports an error, followed by a file read. The agent says the script already exists and runs it. One shell command is reported with details collapsed. Final prose gives expected values using row labels 0, 1, 2 rather than 1, 2, 3. This is reuse of an existing file, not an independently visible fresh conversion."
+    }
+  ],
+  "next_trial_steps": [
+    "Choose one exact teaching-prompt version and one exact SAS fixture. Keep the fixture identical between A and B, and keep each prompt unchanged across its three runs. Archive versions or hashes with the run record.",
+    "Apply the same response-only policy to A and B: show code in the response; do not create or run files, or read existing Python files. Reading the supplied SAS attachment is permitted. Record this shared policy with both variants.",
+    "Use a fresh conversation for every run and the same initial instructions, attachments, knowledge sources, model, and settings wherever available. Do not assume clearing chat also clears workspace files or other context. If tools must be available, use an isolated clean directory for each run and record that change to the protocol.",
+    "Record the model label or model ID, client version, date, relevant context, and visible inference settings. Mark temperature, seed, and other unavailable parameters as unknown or unavailable; do not infer them or promise identical text.",
+    "Collect three independent responses for A and three for B. Save each complete raw transcript to a unique path such as test-results/20260918/example-02/prompt-A/run-01.txt. Never overwrite a previous trial.",
+    "Preserve each response before any follow-up or correction. Then execute its generated code separately in the same documented Python environment, compare with the approved expected output or captured SAS baseline, and save code, stdout, errors, and comparison results separately from the original response.",
+    "Compare library choices, interpretation of requirements, numerical or string results, code structure, and extra actions separately. Record both successful and unsuccessful outcomes. If outputs already agree under A, retain that finding."
+  ],
+  "testing_limits": [
+    "Only six original MEAN run transcripts were supplied. No live Bedrock trials for examples 02-10 are evidenced by these materials.",
+    "This review did not access the user's Bedrock environment, invoke its model, or execute any SAS code. Local review or Python checks must not be labeled live Bedrock trials or SAS execution.",
+    "Any revised teaching prompt or revised SAS fixture is test-pending even when its corresponding original MEAN prompt has historical transcripts.",
+    "The A transcripts contain displayed output but no recorded code execution. B execution details are collapsed, and B2/B3 reuse an existing file. Full numerical reproduction is not demonstrated by the exports alone.",
+    "Inference parameters and complete initial environment/context are not provided. Three runs per variant are a small teaching sample and do not establish failure rates, guaranteed determinism, or training-data frequency.",
+    "Claims in the original authoring session such as zero variance, constraints work regardless of model priors, and uncommon constructs will fail are interpretations or predictions, not findings established by these six records."
+  ]
+}

@@ -1,0 +1,12 @@
+LOCAL PYTHON REFERENCE CHECKS: EXAMPLES 06-10
+Python 3.12.14; pandas 2.2.3
+These are not SAS executions and not AWS Bedrock A/B trials.
+Expected SAS results remain subject to execution in the target SAS environment.
+
+06 INTCK: PASS, all 6 rows and 3 calculated columns match expectations.
+07 COMPRESS: PASS, all 3 rows match, including 2 preserved internal spaces.
+08 INPUT: PASS, all 3 rows, calendar dates, numeric and datetime types match.
+09 FIRST./LAST.: PASS, all 6 rows, order, and singleton-group flags match.
+10 LAG: PASS, all 5 rows and missing positions match per-row queue checks.
+
+All local Python reference checks passed.

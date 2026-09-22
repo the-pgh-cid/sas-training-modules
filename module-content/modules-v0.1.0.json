@@ -1,0 +1,939 @@
+[
+  {
+    "id": 1,
+    "slug": "mean",
+    "title": "MEAN: make missing values explicit",
+    "subtitle": "Name the behavior you already know",
+    "objective": "Turn your SAS knowledge into instructions and a small checkable result.",
+    "setup": "Calculate one average per row. The three cases contain complete data, partly missing data, and all missing data. Keep all three when comparing the responses.",
+    "sas_code": "data test;\n    input x y z;\n    average = mean(x, y, z);\n    datalines;\n1 2 3\n4 . 6\n. . .\n;\nrun;\n\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "Row",
+      "average",
+      "Reason"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "2.0",
+        "Three observed values"
+      ],
+      [
+        "2",
+        "5.0",
+        "Missing value excluded"
+      ],
+      [
+        "3",
+        ". / NaN",
+        "All values missing"
+      ]
+    ],
+    "expected_note": "SAS prints numeric missing as a period. The Python exercise uses NaN. A missing value is not zero.",
+    "prompt_a": "Convert this SAS code to Python.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "a_why": [
+      {
+        "label": "A clear destination",
+        "body": "The request names Python. The SAS code supplies the calculation and example data."
+      },
+      {
+        "label": "Several open choices",
+        "body": "The model chooses a library, data structure, missing-value representation, and output format."
+      },
+      {
+        "label": "Agreement can happen",
+        "body": "A may already work. Record that honestly, then identify which decisions were inferred rather than stated."
+      }
+    ],
+    "a_watch": "Anti-pattern: accepting the conversion because the complete row works. That checks only the easiest case. Check the partly missing and all-missing rows too.",
+    "prompt_b": "Convert this SAS code to Python using pandas and NumPy.\n- Create a DataFrame with columns x, y, z in the given row order.\n- Represent SAS numeric missing values (.) with np.nan.\n- Calculate average across x, y, z within each row using\n  DataFrame.mean(axis=1, skipna=True).\n- Keep an all-missing row missing; do not replace missing with zero.\n- Print x, y, z, average, and briefly explain the missing-value rule.\n- Include assertions: averages are 2.0, 5.0, and NaN, respectively.\n  Check NaN with pandas.isna(), not equality.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "b_why": [
+      {
+        "label": "Choose the tools",
+        "body": "Naming pandas and NumPy gives repeated answers a common structure."
+      },
+      {
+        "label": "State the rule",
+        "body": "Exclude missing values from each average; keep an entirely missing row missing."
+      },
+      {
+        "label": "Give a finish line",
+        "body": "Three expected results make the answer checkable. Run the assertions and review the results."
+      }
+    ],
+    "b_check": "Run the code. Confirm 2.0 and 5.0; check row 3 with pandas.isna(). Confirm three rows remain. If A also passes, record that result.",
+    "takeaway": "State the missing-value rule and include a row that proves whether the conversion follows it.",
+    "sources": [
+      {
+        "title": "SAS Functions Reference: MEAN, pp. 658-659",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/PDF/default/lefunctionsref.pdf"
+      }
+    ],
+    "revisions": [
+      "Added the same response-only policy to both prompts. The original MEAN records used earlier prompts; they are not trials of these revised prompts.",
+      "Removed unsupported predictions about model training frequency and guarantees of identical or correct output. Describe open choices and checks instead.",
+      "Expected results are derived from documented semantics and checked in local Python; SAS and AWS Bedrock execution remain pending.",
+      "Preserved the original three input rows and MEAN calculation; added NOOBS for a compact SAS display."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 2,
+    "slug": "substr",
+    "title": "SUBSTR: specify the positions",
+    "subtitle": "Make a hidden translation choice visible",
+    "objective": "Use concrete examples to check a translation rule instead of judging code by appearance.",
+    "setup": "Extract the beginning, middle, and remainder of each string. SAS positions start at 1; Python slice positions start at 0. Check each result character by character.",
+    "sas_code": "data test;\n    length text $20 first_three $3\n           middle $4 from_seventh $14;\n    input text :$20.;\n    first_three = substr(text, 1, 3);\n    middle = substr(text, 5, 4);\n    from_seventh = substr(text, 7);\n    datalines;\nABCDEFGHIJ\nHelloWorld\nSAS-to-Python\n;\nrun;\n\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "Row",
+      "first_three",
+      "middle",
+      "from_seventh"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "ABC",
+        "EFGH",
+        "GHIJ"
+      ],
+      [
+        "2",
+        "Hel",
+        "oWor",
+        "orld"
+      ],
+      [
+        "3",
+        "SAS",
+        "to-P",
+        "-Python"
+      ]
+    ],
+    "expected_note": "The table hides trailing storage blanks for readability. Stored widths are 20 for text and 3, 4, 14 for the extracted columns.",
+    "prompt_a": "Convert this SAS code to Python.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "a_why": [
+      {
+        "label": "The code has the rule",
+        "body": "The model can infer each start position and requested character count from the SAS calls."
+      },
+      {
+        "label": "The method is open",
+        "body": "Python slices, helper functions, or pandas methods can produce the same correct strings."
+      },
+      {
+        "label": "Appearance is a weak check",
+        "body": "A one-character shift can still look plausible. Compare outputs with the actual positions."
+      }
+    ],
+    "a_watch": "Anti-pattern: saying 'looks right' after checking only ABC. A shifted start elsewhere may go unnoticed. Count the characters in HelloWorld and SAS-to-Python before accepting the conversion.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\n- Build a DataFrame with text in the supplied row order.\n- Right-pad text with spaces to width 20 before slicing.\n- Use .str.slice(). Subtract 1 from the SAS start position.\n  Python stop = adjusted start + requested length.\n- Create first_three with slice(0, 3), middle with slice(4, 8),\n  and from_seventh with slice(6, None).\n- Preserve result widths 3, 4, 14; trim trailing spaces only\n  in the printed view, not in the stored columns.\n- Include assertions for the widths and these visible triples:\n  ABCDEFGHIJ: ABC, EFGH, GHIJ\n  HelloWorld: Hel, oWor, orld\n  SAS-to-Python: SAS, to-P, -Python\n- Print all columns and briefly explain the position adjustment.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "b_why": [
+      {
+        "label": "Translate the rule",
+        "body": "The prompt shows how SAS start and length become Python start and stop."
+      },
+      {
+        "label": "Separate value and display",
+        "body": "Preserve stored widths. Trim only the printed view so a neat display does not change the data."
+      },
+      {
+        "label": "Check every slice",
+        "body": "Expected triples cover the beginning, middle, and remainder. Each expression gets a concrete check."
+      }
+    ],
+    "b_check": "Run the code. Compare all nine visible strings and stored widths 3, 4, 14. Row 2 ends with orld; row 3 ends with -Python.",
+    "takeaway": "Make position rules explicit, then check several outputs rather than trusting a familiar-looking code pattern.",
+    "sources": [
+      {
+        "title": "SAS Functions Reference: SUBSTR (right of =), pp. 892-893",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/PDF/default/lefunctionsref.pdf"
+      }
+    ],
+    "revisions": [
+      "Added the same response-only policy to both prompts. The original MEAN records used earlier prompts; they are not trials of these revised prompts.",
+      "Removed unsupported predictions about model training frequency and guarantees of identical or correct output. Describe open choices and checks instead.",
+      "Expected results are derived from documented semantics and checked in local Python; SAS and AWS Bedrock execution remain pending.",
+      "Corrected expected HelloWorld remainder to orld and SAS-to-Python remainder to -Python. The middle result to-P is retained.",
+      "Removed the incorrect statement that Python text[0:3] is an off-by-one error; it is the correct translation of SUBSTR(text,1,3).",
+      "Added explicit output widths 3, 4, 14 instead of SAS's implicit width inherited from text; input text remains width 20.",
+      "Changed source reading to modified list input text :$20. for these no-space strings; comparisons distinguish stored padding from readable display."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 3,
+    "slug": "length",
+    "title": "LENGTH: say which spaces count",
+    "subtitle": "Check the value behind the display",
+    "objective": "Specify an invisible data detail and ask for a check that makes it visible.",
+    "setup": "Each text value occupies ten character positions. LENGTH ignores trailing blanks and returns 1 for all blanks. The period on the final input row supplies a missing character value.",
+    "sas_code": "data test;\n    length text $10;\n    input text $;\n    len = length(text);\n    datalines;\nABC\nABC\nABCDEFGHIJ\nX\n.\n;\nrun;\n\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "Row",
+      "Stored width",
+      "len"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "10",
+        "3"
+      ],
+      [
+        "2",
+        "10",
+        "3"
+      ],
+      [
+        "3",
+        "10",
+        "10"
+      ],
+      [
+        "4",
+        "10",
+        "1"
+      ],
+      [
+        "5",
+        "10",
+        "1"
+      ]
+    ],
+    "expected_note": "Both ABC rows are padded with seven blanks. The final row is ten blanks. SAS LENGTH returns 1 for this all-blank character value.",
+    "prompt_a": "Convert this SAS code to Python.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "a_why": [
+      {
+        "label": "An ordinary-looking request",
+        "body": "A length calculation sounds simple, but the SAS source also specifies fixed-width storage."
+      },
+      {
+        "label": "Invisible choices",
+        "body": "Python strings need not carry SAS padding. The model must choose how to represent and count those blanks."
+      },
+      {
+        "label": "A display can hide differences",
+        "body": "Two printed ABC values can look identical. Inspect the stored value as well as the calculated length."
+      }
+    ],
+    "a_watch": "Anti-pattern: asking to 'remove extra spaces' without saying which ones. Leading spaces can be meaningful. Specify trailing blanks for the calculation and preserve the stored text.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\n- Create text from ABC, ABC, ABCDEFGHIJ, X, and an empty string.\n  The final SAS input period represents character missing here.\n- Right-pad every text value with spaces to width 10.\n- Preserve the stored text. For len, remove trailing ordinary\n  spaces only with .str.rstrip(' '), then count characters.\n- Match SAS LENGTH for a blank string: set its result to 1.\n  Use .str.len().clip(lower=1) after the trailing-space removal.\n- Print a visible representation of text and the len column.\n- Include assertions: stored widths are all 10; len values are\n  [3, 3, 10, 1, 1] in the original row order.\n- Briefly explain why stored width and LENGTH can differ.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "b_why": [
+      {
+        "label": "Name the hidden detail",
+        "body": "Padding to ten characters makes the storage rule explicit and measurable."
+      },
+      {
+        "label": "Specify which spaces",
+        "body": "Remove only trailing ordinary spaces for the calculation. Keep stored text and leading spaces intact."
+      },
+      {
+        "label": "Include the blank case",
+        "body": "The last row checks LENGTH returns 1 for blanks. Trim-and-count alone would return 0."
+      }
+    ],
+    "b_check": "Run the code. Confirm every stored value has width 10 and len equals [3, 3, 10, 1, 1]. Confirm the calculation did not trim the stored text column.",
+    "takeaway": "When a result depends on invisible spaces, make the storage rule visible and verify it explicitly.",
+    "sources": [
+      {
+        "title": "SAS Functions Reference: LENGTH, pp. 617-618",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/PDF/default/lefunctionsref.pdf"
+      }
+    ],
+    "revisions": [
+      "Added the same response-only policy to both prompts. The original MEAN records used earlier prompts; they are not trials of these revised prompts.",
+      "Removed unsupported predictions about model training frequency and guarantees of identical or correct output. Describe open choices and checks instead.",
+      "Expected results are derived from documented semantics and checked in local Python; SAS and AWS Bedrock execution remain pending.",
+      "Added one all-blank input row so the module verifies SAS LENGTH's documented return value of 1 for blank strings.",
+      "Corrected the original trim-and-count recipe to include a minimum result of 1; limited trimming to ordinary trailing spaces.",
+      "Removed the unsupported claim that row 2 contains distinctive source trailing spaces. The original two ABC rows are identical and both acquire storage padding."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 4,
+    "slug": "cat",
+    "title": "CAT: preserve the intended spaces",
+    "subtitle": "Ask for the behavior, not just a neat result",
+    "objective": "Distinguish preserving source behavior from silently cleaning the data.",
+    "setup": "CAT keeps blanks in these character fields. CATX trims them and separates nonblank values. Both behaviors are intentional. Inspect the spaces as well as the readable names.",
+    "sas_code": "data test;\n    length first middle last $8\n           name1 name2 $24;\n    input first $ middle $ last $;\n    name1 = cat(first, middle, last);\n    name2 = catx(' ', first, middle, last);\n    datalines;\nJohn Q Public\nJane . Doe\nBob . Smith\n;\nrun;\n\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "Row",
+      "CAT: name1",
+      "CATX: name2"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "John____Q_______Public__",
+        "John Q Public"
+      ],
+      [
+        "2",
+        "Jane____________Doe_____",
+        "Jane Doe"
+      ],
+      [
+        "3",
+        "Bob_____________Smith___",
+        "Bob Smith"
+      ]
+    ],
+    "expected_note": "Each underscore represents one stored blank in name1. name2 hides trailing storage padding. Input periods become blank middle fields. Both stored result columns have width 24.",
+    "prompt_a": "Convert this SAS code to Python.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "a_why": [
+      {
+        "label": "A familiar task",
+        "body": "Joining name parts may prompt a familiar Python approach that prioritizes a readable name."
+      },
+      {
+        "label": "Two distinct behaviors",
+        "body": "CAT preserves character blanks. CATX trims them and separates nonblank parts. Both results are intentional."
+      },
+      {
+        "label": "Preservation needs checking",
+        "body": "A neat name cannot verify CAT. Make blanks visible before deciding whether the conversion matches."
+      }
+    ],
+    "a_watch": "Anti-pattern: asking to 'clean up the names' during an equivalent conversion. That can invite space removal and change CAT. Request cleanup separately after checking the original behavior.",
+    "prompt_b": "Convert this SAS CAT/CATX code to Python using pandas.\n- Use first, middle, last in the original row order.\n  Map the input periods to blank middle fields, not literal dots.\n- Right-pad every input field to 8 characters with spaces.\n- name1: concatenate the padded fields without trimming (CAT).\n- name2: strip ordinary leading/trailing spaces from each field,\n  skip blank fields, and join with one space (CATX).\n- Store both result columns padded to width 24.\n- Include assertions for both widths and all results below.\n  For name1 checks, _ denotes one space:\n  John____Q_______Public__\n  Jane____________Doe_____\n  Bob_____________Smith___\n  name2, with trailing padding hidden:\n  John Q Public; Jane Doe; Bob Smith.\n- Print name1 with spaces visible and name2 in readable form.\n  Keep stored values unchanged; explain the difference briefly.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "b_why": [
+      {
+        "label": "Separate the operations",
+        "body": "Give CAT and CATX their own rules so a general joining instruction does not hide the difference."
+      },
+      {
+        "label": "Define missing input",
+        "body": "The middle fields are blank. Stating that prevents a dot or None from appearing in a name."
+      },
+      {
+        "label": "Make spaces countable",
+        "body": "Widths and visible blank markers make stored spaces checkable. The readable display stays separate."
+      }
+    ],
+    "b_check": "Run the code. Compare each marked CAT string. Confirm both result columns have width 24. Check readable CATX names and verify a blank middle adds no extra separator.",
+    "takeaway": "Preserve the source behavior first. Make any requested cleanup a separate, explicit choice.",
+    "sources": [
+      {
+        "title": "SAS Functions Reference: CAT, pp. 263-265; CATX, pp. 274-276",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/PDF/default/lefunctionsref.pdf"
+      }
+    ],
+    "revisions": [
+      "Added the same response-only policy to both prompts. The original MEAN records used earlier prompts; they are not trials of these revised prompts.",
+      "Removed unsupported predictions about model training frequency and guarantees of identical or correct output. Describe open choices and checks instead.",
+      "Expected results are derived from documented semantics and checked in local Python; SAS and AWS Bedrock execution remain pending.",
+      "Corrected the source explanation: CAT preserves leading and trailing blanks in character arguments. CATS, not CAT, strips them.",
+      "Retained CAT and CATX; did not replace CAT with CATS merely to match the former incorrect expected table.",
+      "Corrected list-input character missing interpretation: unquoted period here produces blanks, not a literal period in the stored middle name.",
+      "Changed Bob Smith to Bob . Smith so the intended missing middle and last name occupy distinct list-input fields.",
+      "Declared input widths of 8 and result widths of 24 explicitly; the original implicit CAT/CATX result width was 200.",
+      "Replaced all expected CAT results with padded, space-preserving strings and corrected CATX missing-value results."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 5,
+    "slug": "round",
+    "title": "ROUND: keep the promise specific",
+    "subtitle": "A small check can earn a useful amount of trust",
+    "objective": "Match a simple conversion to an explicit scope and a compact result check.",
+    "setup": "Round five positive and negative numbers to the nearest integer. None is a halfway value. This exercise establishes agreement only for these supplied values.",
+    "sas_code": "data test;\n    input value;\n    rounded = round(value);\n    datalines;\n2.3\n2.7\n-1.4\n-1.6\n3.0\n;\nrun;\n\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "Row",
+      "value",
+      "rounded"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "2.3",
+        "2"
+      ],
+      [
+        "2",
+        "2.7",
+        "3"
+      ],
+      [
+        "3",
+        "-1.4",
+        "-1"
+      ],
+      [
+        "4",
+        "-1.6",
+        "-2"
+      ],
+      [
+        "5",
+        "3.0",
+        "3"
+      ]
+    ],
+    "expected_note": "Compare numeric values. A display of 2.0 equals 2 here. Halfway cases and other rounding units are outside this 101 example.",
+    "prompt_a": "Convert this SAS code to Python.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "a_why": [
+      {
+        "label": "A recognizable task",
+        "body": "The code supplies five inputs and integer rounding. A short request may already produce a correct conversion."
+      },
+      {
+        "label": "Several valid approaches",
+        "body": "Built-in Python, NumPy, and pandas can agree here. Different library choices are not automatically numerical errors."
+      },
+      {
+        "label": "The tested scope matters",
+        "body": "Success on these values supports this example. It does not cover every SAS rounding case."
+      }
+    ],
+    "a_watch": "Anti-pattern: treating five matching answers as proof that all ROUND cases are interchangeable. Keep the claim tied to these values. Add checks when the real task introduces new cases.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\n- Build a DataFrame with value in the original row order:\n  [2.3, 2.7, -1.4, -1.6, 3.0].\n- Create rounded using the value Series .round(0) method.\n- Print value and rounded. Numeric 2 and 2.0 are equivalent here.\n- Include an assertion that rounded values are [2, 3, -1, -2, 3].\n- Briefly explain what the check covers: these five inputs,\n  nearest-integer rounding, including the negative inputs.\n- State that halfway values and other rounding units have not\n  been tested. Keep those cases outside this exercise.\n\nShow code in this response. Do not create or run files, or read existing\nPython files.",
+    "b_why": [
+      {
+        "label": "Choose one route",
+        "body": "Naming pandas and its rounding method reduces implementation choices while keeping the task simple."
+      },
+      {
+        "label": "Define agreement",
+        "body": "The expected numeric list is the finish line. A display difference such as 2 versus 2.0 is harmless here."
+      },
+      {
+        "label": "Bound the conclusion",
+        "body": "State what was checked so a useful local result does not become an unsupported general claim."
+      }
+    ],
+    "b_check": "Run the code. Compare [2, 3, -1, -2, 3] in order and confirm inputs are unchanged. Record a pass for this dataset; halfway cases and other rounding units remain untested.",
+    "takeaway": "Earn trust for a stated scope, then extend that scope with new examples and checks.",
+    "sources": [
+      {
+        "title": "SAS Functions Reference: ROUND, pp. 833-837",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/PDF/default/lefunctionsref.pdf"
+      }
+    ],
+    "revisions": [
+      "Added the same response-only policy to both prompts. The original MEAN records used earlier prompts; they are not trials of these revised prompts.",
+      "Removed unsupported predictions about model training frequency and guarantees of identical or correct output. Describe open choices and checks instead.",
+      "Expected results are derived from documented semantics and checked in local Python; SAS and AWS Bedrock execution remain pending.",
+      "Preserved all five source inputs and their basic rounding results; halfway values remain excluded.",
+      "Removed the incorrect blanket claim that floor(value + 0.5) fails for the supplied negative values; those specific values do round as expected by that expression.",
+      "Avoided claims that these cases prove general equivalence between SAS ROUND and Python or pandas rounding."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 6,
+    "slug": "intck",
+    "title": "INTCK",
+    "subtitle": "Say exactly what you are counting",
+    "objective": "Turn a familiar business rule into an explicit conversion requirement.",
+    "setup": "Default INTCK counts calendar boundaries. Think of turning a calendar page: January 31 to February 1 crosses a month boundary, although only one day passes. Compare all six rows.",
+    "sas_code": "data test;\n  input start_date :date9. end_date :date9.;\n  days = intck('day', start_date, end_date);\n  months = intck('month', start_date, end_date);\n  years = intck('year', start_date, end_date);\n  format start_date end_date date9.;\n  datalines;\n01JAN2023 15JAN2023\n01JAN2023 01FEB2023\n01JAN2023 31DEC2023\n15MAR2023 20MAR2023\n31JAN2023 01FEB2023\n31DEC2023 01JAN2024\n;\nrun;\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "start_date",
+      "end_date",
+      "days",
+      "months",
+      "years"
+    ],
+    "expected_rows": [
+      [
+        "01JAN2023",
+        "15JAN2023",
+        "14",
+        "0",
+        "0"
+      ],
+      [
+        "01JAN2023",
+        "01FEB2023",
+        "31",
+        "1",
+        "0"
+      ],
+      [
+        "01JAN2023",
+        "31DEC2023",
+        "364",
+        "11",
+        "0"
+      ],
+      [
+        "15MAR2023",
+        "20MAR2023",
+        "5",
+        "0",
+        "0"
+      ],
+      [
+        "31JAN2023",
+        "01FEB2023",
+        "1",
+        "1",
+        "0"
+      ],
+      [
+        "31DEC2023",
+        "01JAN2024",
+        "1",
+        "1",
+        "1"
+      ]
+    ],
+    "expected_note": "The last two rows distinguish calendar boundaries from elapsed months or years. Compare every result column.",
+    "prompt_a": "Convert this SAS code to Python.\nShow code in this response. Do not create or run files, or read\nexisting Python files.",
+    "a_why": [
+      {
+        "label": "A clear destination",
+        "body": "Naming Python sets the target language. The source and input rows give the model a concrete task."
+      },
+      {
+        "label": "An unstated meaning",
+        "body": "The model must recognize boundary counting. A plausible duration calculation could answer a different question."
+      },
+      {
+        "label": "Open implementation choices",
+        "body": "Library and method remain open. Different code can still be correct; compare the actual results."
+      }
+    ],
+    "a_watch": "Anti-pattern: \"Calculate months between dates.\" Completed months and crossed month boundaries are different rules. State the meaning and include a one-day boundary example.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\nShow code in this response. Do not create or run files, or read\nexisting Python files.\n\n- Recreate the six rows in order; keep the same column names.\n- Parse dates with pd.to_datetime(..., format='%d%b%Y').\n  The inputs are valid dates with English month names.\n- Preserve default discrete INTCK behavior: count boundaries.\n- days: subtract start_date from end_date and use .dt.days.\n- months: 12 * (end year - start year) + end month - start month.\n- years: end year - start year.\n- Return one complete script and include assertions for:\n  days = [14, 31, 364, 5, 1, 1]\n  months = [0, 1, 11, 0, 1, 1]\n  years = [0, 0, 0, 0, 0, 1]\n- Calculate from the input dates; do not hard-code result columns.\nBriefly explain why a one-day interval can cross a month or year.",
+    "b_why": [
+      {
+        "label": "Define the meaning",
+        "body": "Boundary counting specifies the question. Turning a calendar page makes the rule easy to explain."
+      },
+      {
+        "label": "Choose the route",
+        "body": "Naming pandas and the formulas narrows choices without requiring you to write the whole program."
+      },
+      {
+        "label": "Make success visible",
+        "body": "Complete expected lists check every row. One-day boundary examples expose an incorrect duration calculation."
+      }
+    ],
+    "b_check": "Run the script separately. Compare all three columns. January 31 to February 1 must cross one month; December 31 to January 1 must cross one year.",
+    "takeaway": "Name the rule behind a calculation and include a small example that distinguishes it from another plausible rule.",
+    "sources": [
+      {
+        "title": "SAS INTCK function",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/p1md4mx2crzfaqn14va8kt7qvfhr.htm"
+      },
+      {
+        "title": "pandas.to_datetime",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html"
+      }
+    ],
+    "revisions": [
+      "Added 31JAN2023 to 01FEB2023 and 31DEC2023 to 01JAN2024 as contrasting boundary tests; original four rows retained.",
+      "Scoped explanation to default discrete INTCK on SAS dates; continuous, shifted, multiplied, custom, and datetime intervals excluded.",
+      "Removed unsupported predictions about training exposure, failure frequency, and guaranteed output convergence.",
+      "Removed blanket claim that dateutil.relativedelta yields discrete boundary counts without additional logic.",
+      "Removed expected-output comments from runnable source; used PROC PRINT NOOBS for clean display."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 7,
+    "slug": "compress",
+    "title": "COMPRESS",
+    "subtitle": "Describe what stays and what goes",
+    "objective": "Replace vague cleaning instructions with concrete character rules.",
+    "setup": "Three strings illustrate three rules: remove spaces, remove digits, or keep letters. For these ASCII inputs, ka keeps alphabetic characters. Specify what cleaning should preserve.",
+    "sas_code": "data test;\n  infile datalines truncover;\n  input text $char20.;\n  no_spaces = compress(text);\n  no_digits = compress(text, '0123456789');\n  only_letters = compress(text, '', 'ka');\n  datalines;\nABC 123 XYZ\nPhone: 555-1234\nID-2023-Q4\n;\nrun;\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "Row",
+      "no_spaces",
+      "no_digits",
+      "only_letters"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "\"ABC123XYZ\"",
+        "\"ABC  XYZ\"",
+        "\"ABCXYZ\""
+      ],
+      [
+        "2",
+        "\"Phone:555-1234\"",
+        "\"Phone: -\"",
+        "\"Phone\""
+      ],
+      [
+        "3",
+        "\"ID-2023-Q4\"",
+        "\"ID--Q\"",
+        "\"IDQ\""
+      ]
+    ],
+    "expected_note": "Quotes mark string boundaries and are not data. Stored trailing padding is omitted. Preserve both internal spaces in the first no_digits result.",
+    "prompt_a": "Convert this SAS code to Python.\nShow code in this response. Do not create or run files, or read\nexisting Python files.",
+    "a_why": [
+      {
+        "label": "A usable starting point",
+        "body": "The source shows the operations and strings. A short prompt may already produce a correct translation."
+      },
+      {
+        "label": "A shorthand to interpret",
+        "body": "The model must interpret ka correctly. Keeping letters and digits together would change the requested result."
+      },
+      {
+        "label": "Several valid routes",
+        "body": "Replacement, regular expressions, and filtering can all work here. Different implementation does not automatically mean incorrect behavior."
+      }
+    ],
+    "a_watch": "Anti-pattern: \"Clean up the strings.\" That leaves the model to choose what disappears. Specify allowed characters and provide a before-and-after pair for each rule.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\nShow code in this response. Do not create or run files, or read\nexisting Python files.\n\n- Recreate the three text values in their original order.\n- These inputs contain ASCII characters only. Ignore SAS trailing\n  storage padding when comparing values; preserve internal spaces.\n- no_spaces: remove literal spaces with\n  .str.replace(' ', '', regex=False).\n- no_digits: remove 0-9 with .str.replace('[0-9]', '', regex=True).\n- only_letters: ka keeps letters; use\n  .str.replace('[^A-Za-z]', '', regex=True).\n- Include assertions for these three complete result columns:\n  no_spaces: ['ABC123XYZ', 'Phone:555-1234', 'ID-2023-Q4']\n  no_digits: ['ABC  XYZ', 'Phone: -', 'ID--Q']\n  only_letters: ['ABCXYZ', 'Phone', 'IDQ']\n- Return one complete script. Compute results from text;\n  do not hard-code the result columns.\nBriefly explain the difference between removing and keeping.",
+    "b_why": [
+      {
+        "label": "Separate the rules",
+        "body": "Each column has its own instruction. Removing digits does not permit removing punctuation or internal spaces."
+      },
+      {
+        "label": "Translate the shorthand",
+        "body": "Explaining ka as keep letters makes the intended behavior explicit. ASCII defines the scope of this exercise."
+      },
+      {
+        "label": "Check the small details",
+        "body": "Quoted expected values make internal spaces and punctuation visible parts of the check."
+      }
+    ],
+    "b_check": "Run the script separately. Check every string, including retained punctuation. Confirm two internal spaces in the first no_digits value. Neat appearance cannot establish that required characters survived.",
+    "takeaway": "When asking for cleaning, specify exactly which characters to keep or remove.",
+    "sources": [
+      {
+        "title": "SAS COMPRESS function",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/n0fcshr0ir3h73n1b845c4aq58hz.htm"
+      },
+      {
+        "title": "pandas.Series.str.replace",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.str.replace.html"
+      }
+    ],
+    "revisions": [
+      "Corrected source narrative that called ka alphanumeric: k keeps the selected class; a selects alphabetic characters.",
+      "Used $CHAR20. plus INFILE DATALINES TRUNCOVER to preserve literal characters and handle short input lines explicitly.",
+      "Explicitly limited the regex translation to ASCII sample strings and compared content after omitting trailing SAS storage padding.",
+      "Removed claims that the model will fail or that output diversity proves incorrectness.",
+      "Removed expected-output comments from source; preserved input values and all expected content."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 8,
+    "slug": "input",
+    "title": "INPUT",
+    "subtitle": "Tell the model how to read the values",
+    "objective": "Make data types and date interpretation part of the request.",
+    "setup": "Convert character values into numbers and dates. The nine-character date field preserves the full year. Check calendar dates and numeric values; Python need not copy SAS internal date storage.",
+    "sas_code": "data test;\n  length char_num $8 char_date $9;\n  input char_num $ char_date $;\n  num_value = input(char_num, best12.);\n  date_value = input(char_date, date9.);\n  format date_value date9.;\n  datalines;\n123 15JAN2023\n456 01FEB2023\n789 31DEC2023\n;\nrun;\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "char_num",
+      "char_date",
+      "num_value",
+      "date_value"
+    ],
+    "expected_rows": [
+      [
+        "\"123\"",
+        "\"15JAN2023\"",
+        "123",
+        "2023-01-15"
+      ],
+      [
+        "\"456\"",
+        "\"01FEB2023\"",
+        "456",
+        "2023-02-01"
+      ],
+      [
+        "\"789\"",
+        "\"31DEC2023\"",
+        "789",
+        "2023-12-31"
+      ]
+    ],
+    "expected_note": "date_value is displayed here as YYYY-MM-DD. SAS DATE9. displays the same calendar dates differently. Quotes mark source strings, not numeric outputs.",
+    "prompt_a": "Convert this SAS code to Python.\nShow code in this response. Do not create or run files, or read\nexisting Python files.",
+    "a_why": [
+      {
+        "label": "A recognizable task",
+        "body": "The input values give useful clues. A short prompt may already produce valid numbers and dates."
+      },
+      {
+        "label": "Representation remains open",
+        "body": "Numeric types, date objects, and display formats remain choices. Correct responses can differ in those choices."
+      },
+      {
+        "label": "A check is missing",
+        "body": "Text can resemble a number or date while remaining unsuitable for the calculations that follow."
+      }
+    ],
+    "a_watch": "Anti-pattern: \"Make the output look the same.\" Appearance cannot establish type or date meaning. Request numeric values and actual dates, then check both.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\nShow code in this response. Do not create or run files, or read\nexisting Python files.\n\n- Recreate char_num and char_date as strings, preserving row order.\n- The three inputs are valid; month abbreviations are English.\n- num_value: use pd.to_numeric(df['char_num']).\n- date_value: use pd.to_datetime(df['char_date'],\n  format='%d%b%Y'). Keep this column as datetime values.\n- Preserve both source columns and add the two result columns.\n- Match calendar dates, not SAS's internal numeric date storage.\n- Include assertions for num_value = [123, 456, 789] and for\n  date_value formatted as YYYY-MM-DD =\n  ['2023-01-15', '2023-02-01', '2023-12-31'].\n- Also assert that the result columns have numeric and datetime\n  types respectively. Calculate them; do not hard-code results.\n- Return one complete script and a brief explanation of the format.\nThis exercise covers these valid inputs only.",
+    "b_why": [
+      {
+        "label": "Declare the starting point",
+        "body": "Naming source columns as strings makes conversion explicit. Retaining them supports comparison."
+      },
+      {
+        "label": "Explain the date pattern",
+        "body": "The format specifies day, month abbreviation, and four-digit year, reducing choices about interpreting the text."
+      },
+      {
+        "label": "Check meaning and type",
+        "body": "Value checks confirm the dates and numbers. Type checks confirm they can be used as dates and numbers."
+      }
+    ],
+    "b_check": "Run the script separately. Compare all dates and numbers, then confirm column types. A displayed date string is not proof of a datetime column. These checks cover the supplied valid inputs.",
+    "takeaway": "Specify what a value means and the type you need, then check both.",
+    "sources": [
+      {
+        "title": "SAS INPUT function",
+        "url": "https://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/a000180357.htm"
+      },
+      {
+        "title": "SAS INPUT statement: list input",
+        "url": "https://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/a000144370.htm"
+      },
+      {
+        "title": "pandas.to_datetime",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html"
+      }
+    ],
+    "revisions": [
+      "Added LENGTH char_num $8 char_date $9 before INPUT; original simple character list input otherwise limits char_date to eight bytes and truncates nine-character date text.",
+      "Clarified calendar-date equivalence versus SAS internal numeric date storage and DATE9. display.",
+      "Limited exercise to provided valid values; no general equivalence claim for invalid-input behavior or all BEST12. inputs.",
+      "Removed unsupported assertions that SAS date formats are unlikely to be known by the model.",
+      "Removed expected-output comments from source and used PROC PRINT NOOBS."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 9,
+    "slug": "firstvar",
+    "title": "FIRST. / LAST.",
+    "subtitle": "Make row order part of the request",
+    "objective": "State the ordering assumptions that define a row-based result.",
+    "setup": "These six records are sorted by group. FIRST.group and LAST.group mark each group's beginning and end. Group C has one member, so its row receives both flags.",
+    "sas_code": "data test;\n  input id group $ value;\n  datalines;\n1 A 10\n2 A 20\n3 B 30\n4 B 40\n5 B 50\n6 C 60\n;\nrun;\ndata flagged;\n  set test;\n  by group;\n  first_flag = first.group;\n  last_flag = last.group;\nrun;\nproc print data=flagged noobs;\nrun;",
+    "expected_columns": [
+      "id",
+      "group",
+      "value",
+      "first_flag",
+      "last_flag"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "A",
+        "10",
+        "1",
+        "0"
+      ],
+      [
+        "2",
+        "A",
+        "20",
+        "0",
+        "1"
+      ],
+      [
+        "3",
+        "B",
+        "30",
+        "1",
+        "0"
+      ],
+      [
+        "4",
+        "B",
+        "40",
+        "0",
+        "0"
+      ],
+      [
+        "5",
+        "B",
+        "50",
+        "0",
+        "1"
+      ],
+      [
+        "6",
+        "C",
+        "60",
+        "1",
+        "1"
+      ]
+    ],
+    "expected_note": "Scope: one nonmissing grouping variable and the supplied sorted rows. Both flags are 1 for a one-row group. All six rows remain in the output.",
+    "prompt_a": "Convert this SAS code to Python.\nShow code in this response. Do not create or run files, or read\nexisting Python files.",
+    "a_why": [
+      {
+        "label": "The source carries clues",
+        "body": "The ordered records and BY statement may be enough for a correct translation. Observe the actual response."
+      },
+      {
+        "label": "The method is open",
+        "body": "Adjacent-row comparisons or grouping methods can both work here. Different code can produce the same flags."
+      },
+      {
+        "label": "Ordering is implicit",
+        "body": "The request does not explicitly preserve every row and its order. Those conditions deserve a direct statement."
+      }
+    ],
+    "a_watch": "Anti-pattern: \"Keep the first and last group records.\" That requests filtering. This code flags every row. Say which operation you need and verify the six-row output.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\nShow code in this response. Do not create or run files, or read\nexisting Python files.\n\n- Recreate id, group, and value. Keep all six rows in their order.\n- These rows are already sorted by group, with no missing groups.\n- Add first_flag and last_flag as integer 0/1 columns.\n- first_flag is 1 on the first row or when group differs from\n  the previous row. Compare with group.shift(1).\n- last_flag is 1 on the last row or when group differs from\n  the next row. Compare with group.shift(-1).\n- Handle the first and last rows explicitly. Do not filter rows\n  or reorder records within groups.\n- Include assertions for id = [1, 2, 3, 4, 5, 6],\n  first_flag = [1, 0, 1, 0, 0, 1], and\n  last_flag = [0, 1, 0, 0, 1, 1].\n- Return one complete script. Compute the flags from group;\n  do not hard-code them. Explain why row 6 has both flags.",
+    "b_why": [
+      {
+        "label": "Preserve the line",
+        "body": "Keeping row order protects the meaning of first and last. The sorted-input assumption is visible."
+      },
+      {
+        "label": "Name the operation",
+        "body": "Requesting flags preserves all records. A group summary would not satisfy the request."
+      },
+      {
+        "label": "Check the single-member group",
+        "body": "Group C checks that both flags can be true. Complete lists also check the interior rows."
+      }
+    ],
+    "b_check": "Run the script separately. Compare both flag lists and the id sequence. Row 6 must have both flags. A correct row count alone does not prove correct order or flags.",
+    "takeaway": "When first, last, or previous matters, state the row order and whether to keep every row.",
+    "sources": [
+      {
+        "title": "SAS: How the DATA step identifies BY groups",
+        "url": "https://support.sas.com/documentation/cdl/en/lrcon/62955/HTML/default/a000761931.htm"
+      },
+      {
+        "title": "SAS: Preprocessing input data for BY groups",
+        "url": "https://support.sas.com/documentation/cdl/en/lrcon/62955/HTML/default/a001125212.htm"
+      },
+      {
+        "title": "pandas.Series.shift",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.shift.html"
+      }
+    ],
+    "revisions": [
+      "Explicitly scoped to the already sorted sample, one grouping variable, and no missing groups; general multi-key and NOTSORTED behavior excluded.",
+      "Clarified that FIRST./LAST. are automatic variables, not ordinary functions.",
+      "Removed original claim that duplicated-based methods are inherently wrong: appropriately inverted first/last duplicated flags can be correct for these sorted groups.",
+      "Prompt explicitly handles endpoints to avoid reliance on missing-value comparison behavior.",
+      "Preserved all sample rows and SAS calculations; omitted expected-output comments and used PROC PRINT NOOBS."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  },
+  {
+    "id": 10,
+    "slug": "lag",
+    "title": "LAG",
+    "subtitle": "Keep missing values and order meaningful",
+    "objective": "State what the model should preserve when there is no previous value.",
+    "setup": "Each LAG call executes on every row in this program. The supplied order defines the previous values. Empty starting positions mean no earlier observation; they remain missing.",
+    "sas_code": "data test;\n  input id value;\n  prev_value = lag(value);\n  prev2_value = lag2(value);\n  change = value - prev_value;\n  datalines;\n1 10\n2 15\n3 12\n4 18\n5 20\n;\nrun;\nproc print data=test noobs;\nrun;",
+    "expected_columns": [
+      "id",
+      "value",
+      "prev_value",
+      "prev2_value",
+      "change"
+    ],
+    "expected_rows": [
+      [
+        "1",
+        "10",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        "2",
+        "15",
+        "10",
+        ".",
+        "5"
+      ],
+      [
+        "3",
+        "12",
+        "15",
+        "10",
+        "-3"
+      ],
+      [
+        "4",
+        "18",
+        "12",
+        "15",
+        "6"
+      ],
+      [
+        "5",
+        "20",
+        "18",
+        "12",
+        "2"
+      ]
+    ],
+    "expected_note": "A period denotes SAS numeric missing; pandas may display NaN or <NA>. Compare missing positions as well as numbers. Conditional LAG calls require a separate analysis.",
+    "prompt_a": "Convert this SAS code to Python.\nShow code in this response. Do not create or run files, or read\nexisting Python files.",
+    "a_why": [
+      {
+        "label": "A familiar relationship",
+        "body": "Previous-value calculations are common. The model may choose shift and give the correct answer immediately."
+      },
+      {
+        "label": "Choices remain open",
+        "body": "Library, method, and missing-value representation remain unstated. Different-looking code may preserve the same behavior."
+      },
+      {
+        "label": "Meaning needs protection",
+        "body": "Check missing positions and row order. Filling an unavailable previous value can create a change that was never observed."
+      }
+    ],
+    "a_watch": "Anti-pattern: \"Fill the blanks.\" Using zero for the first previous value manufactures a change of 10. Explain that missing means no prior observation and must remain missing.",
+    "prompt_b": "Convert this SAS code to Python using pandas.\nShow code in this response. Do not create or run files, or read\nexisting Python files.\n\n- Recreate id and value, preserving all five rows and their order.\n- Each SAS LAG call executes on every row in this program.\n- prev_value: use value.shift(1), with no frequency argument.\n- prev2_value: use value.shift(2), with no frequency argument.\n- change: subtract prev_value from value.\n- Leave unavailable prior values and resulting changes missing.\n  Do not fill them with zero, drop rows, sort, or wrap values.\n- Include assertions for the original id sequence and these lists:\n  prev_value: [missing, 10, 15, 12, 18]\n  prev2_value: [missing, missing, 10, 15, 12]\n  change: [missing, 5, -3, 6, 2]\n  Use pd.isna to test missing positions.\n- Return one complete script. Compute results from value;\n  do not hard-code the result columns.\nBriefly explain why the first change is missing.",
+    "b_why": [
+      {
+        "label": "Protect the sequence",
+        "body": "Preserving row order keeps each value connected to the right predecessor. Sorting would change those relationships."
+      },
+      {
+        "label": "Limit the equivalence",
+        "body": "Per-row execution explains why shift fits this program. Other uses of SAS LAG need their own analysis."
+      },
+      {
+        "label": "Specify missing-value behavior",
+        "body": "Explicit missing checks protect the empty starting positions. Meaning matters more than the printed missing-value symbol."
+      }
+    ],
+    "b_check": "Run the script separately. Check all numbers and missing positions. Row 3 must show -3. The first row must not acquire a wrapped final value or a change calculated from zero.",
+    "takeaway": "State what missing means and preserve the sequence that gives each row its context.",
+    "sources": [
+      {
+        "title": "SAS LAG function",
+        "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/n0l66p5oqex1f2n1quuopdvtcjqb.htm"
+      },
+      {
+        "title": "pandas.Series.shift",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.shift.html"
+      }
+    ],
+    "revisions": [
+      "Restricted LAG-to-shift equivalence to this program, where each function occurrence executes once for every row.",
+      "Corrected the implication that conditional execution breaks LAG: it advances the queue only for the calls that occur and therefore needs different analysis.",
+      "Removed claim that numpy.roll alone is equivalent; wraparound values would need replacement with missing values.",
+      "Removed unsupported predictions of unanimous shift usage or guaranteed output consistency.",
+      "Preserved original input and calculations; removed expected-output comments and used PROC PRINT NOOBS."
+    ],
+    "expected_status": "Expected results; SAS execution pending"
+  }
+]
