@@ -9,7 +9,8 @@
 | 01 MEAN | Previously delivered PDF imported unchanged | Historical original-prompt responses; B2/B3 reused saved code |
 | 02 SUBSTR | Previously delivered PDF imported unchanged | Six reported trials; complete raw transcripts absent from the repository |
 | 03 LENGTH | Populated with test setup and A/B result tables | Six reported trials; local reference and counterexamples checked separately |
-| 04-10 | Existing PDFs retained | Reported result files are present; PDF evidence updates still pending |
+| 04 CAT/CATX | Populated with test setup and A/B result tables | Six reported trials; A3 readable-name agreement distinguished from missing stored widths |
+| 05-10 | Existing PDFs retained | Reported result files are present; PDF evidence updates still pending |
 
 The original `module-content/modules-v0.1.0.json` remains the baseline teaching source. The scripts in `tools/` implement the PDF updates without silently changing the trial prompts. Original source notes, CSV files and trial logs are retained as evidence, even where the PDF's interpretation is more limited.
 
@@ -28,7 +29,9 @@ python -m pip install -r tools/requirements-pdf.txt
 python tools/build_module_01.py
 python tools/build_module_02.py
 python tools/build_module_03.py
+python tools/build_module_04.py
 python validation/length-reference-20260922.py
+python validation/cat-reference-20260922.py
 ```
 
 The default output replaces the PDF in its module folder. To generate a separate review copy:
@@ -42,7 +45,9 @@ The rebuilds reproduce content and layout. PDF timestamps and document identifie
 ## Verification and provenance
 
 - `module-03-length/evidence-review-20260922.md` records the evidence boundary and interpretation.
+- `module-04-cat/evidence-review-20260922.md` records the CAT/CATX evidence boundary and interpretation corrections. Reported full matches are A 0/3 and B 3/3; complete raw responses and execution logs are absent.
 - `validation/length-reference-20260922.txt` records local reference checks, not original model-response execution.
+- `validation/cat-reference-20260922.txt` records exact stored-value checks and locally reconstructed counterexamples, not original trial execution.
 - `module-content/pdf-updates-20260922.json` identifies the baseline and SHA-256 hashes of the delivered PDFs.
 - `file-hashes.json` is retained as the original package manifest, not a current whole-repository manifest.
 

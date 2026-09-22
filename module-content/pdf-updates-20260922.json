@@ -17,6 +17,11 @@
       "path": "module-03-length/module-03-length.pdf",
       "sha256": "ded69838d6e7db28679024922a30e909d2712043c45f88f9ff18a65da8d3074b",
       "provenance": "newly populated PDF from reported trials"
+    },
+    {
+      "path": "module-04-cat/module-04-cat.pdf",
+      "sha256": "1960d9f22843c51797087f68aa878e7b9f914e2e655598eb147e28c87c9008bd",
+      "provenance": "newly populated PDF from reported trials; local reference checked separately"
     }
   ]
 }
