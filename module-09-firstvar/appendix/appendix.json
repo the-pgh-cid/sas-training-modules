@@ -1,0 +1,97 @@
+{
+  "module_id": 9,
+  "slug": "firstvar",
+  "comparison_intro": "Flag the beginning and end of each sorted group, keeping every row. Endpoints are explicit, including a data set with one row.",
+  "snippets": {
+    "sas": [
+      "%macro transform(in=, out=);",
+      "data &out;",
+      "  set &in;",
+      "  by group;",
+      "  first_flag = first.group;",
+      "  last_flag = last.group;",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "out = df.copy(deep=True)",
+      "group = out['group']",
+      "first = group.ne(group.shift(1))",
+      "last = group.ne(group.shift(-1))",
+      "if len(out):",
+      "    first.iloc[0] = True",
+      "    last.iloc[-1] = True",
+      "out['first_flag'] = first.astype(int)",
+      "out['last_flag'] = last.astype(int)"
+    ],
+    "r": [
+      "g <- out$group",
+      "n <- length(g)",
+      "first <- last <- integer(n)",
+      "if (n > 0L) {",
+      "  first[1L] <- 1L",
+      "  last[n] <- 1L",
+      "  if (n > 1L) {",
+      "    change <- g[-1L] != g[-n]",
+      "    first[-1L] <- as.integer(change)",
+      "    last[-n] <- as.integer(change)",
+      "  }",
+      "}",
+      "out$first_flag <- first",
+      "out$last_flag <- last"
+    ]
+  },
+  "language_notes": {
+    "sas": "Macro transform supplies source/result names. BY group creates FIRST.group and LAST.group, including both endpoints of a singleton.",
+    "python": "translate checks sorted, nonmissing group values before these comparisons. Explicit iloc endpoints also work with nullable strings.",
+    "r": "out <- df precedes this excerpt. translate validates sorted, nonmissing groups. Integer vectors and explicit endpoints handle a singleton."
+  },
+  "semantic_notes": [
+    {
+      "title": "Output and instructions both matter",
+      "text": "Historical B2/B3 summaries match the fixture but omit explicit endpoint handling. This reference honors that requirement; trial scores stay unchanged."
+    },
+    {
+      "title": "Keep the whole row sequence",
+      "text": "These flags annotate every record. Filtering to only boundary rows drops id 4 in the original fixture and changes the operation."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original known-answer fixture",
+      "input": "Groups A,A,B,B,B,C in original id order 1-6.",
+      "expected": "first=[1,0,1,0,0,1]; last=[0,1,0,0,1,1].",
+      "catches": "Wrong boundary direction, lost interior rows or mishandled one-row group C."
+    },
+    {
+      "id": "T2",
+      "name": "Added one-row data set",
+      "input": "One row: id=41, group=Z, value=99; Python uses nullable strings.",
+      "expected": "Both integer flags equal 1; exactly one row remains.",
+      "catches": "Reliance on NA comparisons, endpoint omissions, and two-row minimum assumptions."
+    },
+    {
+      "id": "T3",
+      "name": "Preserve rows and integer flags",
+      "input": "Original fixture with non-default Python/R row labels.",
+      "expected": "Input and source order unchanged; complete correct integer 0/1 flags.",
+      "catches": "Index-label endpoints, row filtering/reordering, input mutation or string/boolean flag outputs."
+    }
+  ],
+  "scope": "One sorted, nonmissing group key. The one-row edge case is added local validation. No claim covers multiple BY variables, missing groups or NOTSORTED input.",
+  "references": [
+    {
+      "label": "SAS BY-group processing",
+      "url": "https://support.sas.com/documentation/cdl/en/lrcon/62955/HTML/default/a000761931.htm"
+    },
+    {
+      "label": "pandas missing values",
+      "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html"
+    },
+    {
+      "label": "R integer vectors",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/integer.html"
+    }
+  ]
+}

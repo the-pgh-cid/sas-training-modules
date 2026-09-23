@@ -1,0 +1,87 @@
+{
+  "module_id": 3,
+  "slug": "length",
+  "comparison_intro": "One behavior contract, three implementations. Run the companion files and the same three acceptance tests against shared fixture data.",
+  "snippets": {
+    "sas": [
+      "%macro translate(in=, out=);",
+      "data &out;",
+      "  length text $10;",
+      "  set &in;",
+      "  len = length(text);",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "def translate(df):",
+      "    out = df.copy(deep=True)",
+      "    out[\"text\"] = out[\"text\"].str.ljust(10)",
+      "    trimmed = out[\"text\"].str.rstrip(\" \")",
+      "    out[\"len\"] = trimmed.str.len().clip(",
+      "        lower=1)",
+      "    return out"
+    ],
+    "r": [
+      "translate <- function(df) {",
+      "  out <- df",
+      "  out$text <- sprintf(\"%-10s\", out$text)",
+      "  s <- sub(\" +$\", \"\", out$text)",
+      "  out$len <- pmax(nchar(s), 1L)",
+      "  out",
+      "}"
+    ]
+  },
+  "language_notes": {
+    "sas": "SAS LENGTH ignores trailing ordinary blanks and returns 1 for an all-blank character value; LENGTH is byte-based.",
+    "python": "Pad stored text to 10. Remove only ordinary trailing spaces for len, then enforce a minimum of 1; keep stored text intact.",
+    "r": "The base R pattern \" +$\" removes trailing ordinary spaces only. nchar counts the remaining ASCII characters; pmax enforces 1."
+  },
+  "semantic_notes": [
+    {
+      "title": "Trailing spaces only",
+      "text": "Leading spaces and tabs remain meaningful. Broad whitespace trimming changes the rule even if the original numeric results happen to match."
+    },
+    {
+      "title": "Length differs from width",
+      "text": "Every stored value has width 10. LENGTH counts through the final nonblank character and returns 1 for the all-blank value."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original five-row fixture",
+      "input": "ABC, ABC, ABCDEFGHIJ, X and character missing decoded as an empty string.",
+      "expected": "len = [3, 3, 10, 1, 1]; every stored text value is padded to width 10.",
+      "catches": "Counting storage padding, losing character-missing blanks, or returning zero for an all-blank value."
+    },
+    {
+      "id": "T2",
+      "name": "Added meaningful-space boundary",
+      "input": "Added validation strings \" ABC  \", \"ABC<tab>\" and three spaces; CSV contains the actual tab.",
+      "expected": "len = [4, 4, 1]; leading space and tab survive; all-blank result is 1.",
+      "catches": "strip() removing leading blanks, broad whitespace rstrip(), or omitting the minimum of 1."
+    },
+    {
+      "id": "T3",
+      "name": "Preservation, widths and order",
+      "input": "All shared rows reversed; original caller data saved.",
+      "expected": "Caller unchanged; returned text equals expected padded text; integer lengths and row order retained.",
+      "catches": "Mutating or trimming stored text, losing padding, wrong result type or row reordering."
+    }
+  ],
+  "scope": "Single-byte ASCII text up to width 10, including ordinary spaces and tab. Character missing is a blank string. No Unicode byte/character equivalence or numeric-argument coercion claim.",
+  "references": [
+    {
+      "label": "SAS LENGTH",
+      "url": "https://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/a000245907.htm"
+    },
+    {
+      "label": "pandas rstrip",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.str.rstrip.html"
+    },
+    {
+      "label": "R trim rules",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/trimws.html"
+    }
+  ]
+}

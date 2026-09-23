@@ -1,0 +1,8 @@
+case_id,id,group,value,expected_first_flag,expected_last_flag
+"fixture",1,"A",10,1,0
+"fixture",2,"A",20,0,1
+"fixture",3,"B",30,1,0
+"fixture",4,"B",40,0,0
+"fixture",5,"B",50,0,1
+"fixture",6,"C",60,1,1
+"edge",41,"Z",99,1,1

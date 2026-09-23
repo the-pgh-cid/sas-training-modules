@@ -1,5 +1,7 @@
 # PDF updates and rebuild instructions
 
+> **Current five-page package, 23 September 2026:** See [APPENDICES.md](APPENDICES.md) for the new SAS/Python/R and three-test appendices and the `build_appendices.py` workflow. The instructions and hashes below describe the preserved three-page v0.2 core. Running an individual `build_module_NN.py` script alone recreates only that historical core.
+
 22 September 2026. PDF teaching edition v0.2.0; prompts and SAS fixtures remain v0.1.0.
 
 ## This update

@@ -1,0 +1,93 @@
+{
+  "module_id": 2,
+  "slug": "substr",
+  "comparison_intro": "One behavior contract, three implementations. Run the companion files and the same three acceptance tests against shared fixture data.",
+  "snippets": {
+    "sas": [
+      "%macro translate(in=, out=);",
+      "data &out;",
+      "  length text $20 first_three $3",
+      "         middle $4 from_seventh $14;",
+      "  set &in;",
+      "  first_three = substr(text, 1, 3);",
+      "  middle = substr(text, 5, 4);",
+      "  from_seventh = substr(text, 7);",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "def translate(df):",
+      "    out = df.copy(deep=True)",
+      "    out[\"text\"] = out[\"text\"].str.ljust(20)",
+      "    s = out[\"text\"].str",
+      "    out[\"first_three\"] = s.slice(0, 3)",
+      "    out[\"middle\"] = s.slice(4, 8)",
+      "    out[\"from_seventh\"] = s.slice(6, None)",
+      "    return out"
+    ],
+    "r": [
+      "translate <- function(df) {",
+      "  out <- df",
+      "  out$text <- sprintf(\"%-20s\", out$text)",
+      "  s <- out$text",
+      "  out$first_three <- substr(s, 1, 3)",
+      "  out$middle <- substr(s, 5, 8)",
+      "  out$from_seventh <- substr(s, 7, 20)",
+      "  out",
+      "}"
+    ]
+  },
+  "language_notes": {
+    "sas": "SAS starts at position 1 and takes a length. Explicit storage widths are 20, 3, 4 and 14. CSV loader retains quoted spaces.",
+    "python": "pandas slices start at 0 and exclude stop. Pad text to 20 before slicing; keep padding in the stored result columns.",
+    "r": "Base R substr starts at 1 and includes stop: SAS start 5, length 4 becomes R 5 through 8. sprintf pads these ASCII strings."
+  },
+  "semantic_notes": [
+    {
+      "title": "Start plus length is not stop",
+      "text": "SAS substr(text,5,4), Python slice(4,8) and R substr(text,5,8) select the same four positions."
+    },
+    {
+      "title": "Stored blanks remain data",
+      "text": "Input text occupies 20 positions; outputs occupy 3, 4 and 14. Short text still yields padded slices. Trim only a separate display."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original three-row fixture",
+      "input": "ABCDEFGHIJ, HelloWorld and SAS-to-Python, in original order.",
+      "expected": "Visible triples: ABC/EFGH/GHIJ; Hel/oWor/orld; SAS/to-P/-Python, with exact stored padding.",
+      "catches": "Off-by-one starts, confusing length with stop, and losing the remainder."
+    },
+    {
+      "id": "T2",
+      "name": "Added short/full-width boundary",
+      "input": "Added validation inputs AB and 0123456789ABCDEFGHIJ (20 characters).",
+      "expected": "AB: \"AB \", 4 blanks, 14 blanks. Full-width: \"012\", \"4567\", \"6789ABCDEFGHIJ\".",
+      "catches": "Slicing before padding, clipping the last character, or wrong inclusive/exclusive endpoint."
+    },
+    {
+      "id": "T3",
+      "name": "Preservation, widths and order",
+      "input": "All shared rows reversed; original caller data saved.",
+      "expected": "Caller unchanged; returned text width 20 and outputs 3/4/14; metadata and row order retained.",
+      "catches": "Trimming stored results, variable output widths, caller mutation or row reordering."
+    }
+  ],
+  "scope": "ASCII character inputs no longer than 20 positions; fixed valid starts 1, 5 and 7. No Unicode equivalence, invalid-position behavior or overflow claim. Edge rows are added validation only.",
+  "references": [
+    {
+      "label": "SAS SUBSTR",
+      "url": "https://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/a000212264.htm"
+    },
+    {
+      "label": "pandas slice",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.str.slice.html"
+    },
+    {
+      "label": "R substr",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/substr.html"
+    }
+  ]
+}

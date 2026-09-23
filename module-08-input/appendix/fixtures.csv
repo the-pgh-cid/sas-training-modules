@@ -1,0 +1,6 @@
+case_id,row_id,char_num,char_date,expected_num_value,expected_date_value
+"fixture",1,"123","15JAN2023",123,"2023-01-15"
+"fixture",2,"456","01FEB2023",456,"2023-02-01"
+"fixture",3,"789","31DEC2023",789,"2023-12-31"
+"edge",4,"-0.5","29FEB2024",-0.5,"2024-02-29"
+"edge",5,"0012","01MAR2024",12,"2024-03-01"

@@ -1,6 +1,6 @@
 # SAS to Python: LLM collaboration modules
 
-> **PDF update, 22 September 2026:** All ten module PDFs are at teaching edition v0.2.0. See [PDF-BUILD.md](PDF-BUILD.md) for current reported results, evidence limits and rebuild instructions. The notes below describe the original 18 September edition.
+> **Appendix update, 23 September 2026:** All ten PDFs now preserve the three-page v0.2 lesson and add two appendix pages with SAS/Python/R comparisons and three acceptance tests. See [APPENDICES.md](APPENDICES.md) for current companions and rebuild instructions. The notes below describe the original 18 September edition.
 
 Version 0.1.0 | 18 September 2026
 

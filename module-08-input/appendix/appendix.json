@@ -1,0 +1,88 @@
+{
+  "module_id": 8,
+  "slug": "input",
+  "comparison_intro": "Convert valid numeric and English date text while preserving source strings. Compare calendar dates and result types across languages.",
+  "snippets": {
+    "sas": [
+      "%macro transform(in=, out=);",
+      "data &out;",
+      "  set &in;",
+      "  num_value = input(char_num, best12.);",
+      "  date_value = input(char_date, date9.);",
+      "  format date_value date9.;",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "out = df.copy(deep=True)",
+      "out['num_value'] = pd.to_numeric(",
+      "    out['char_num'])",
+      "out['date_value'] = english_dates(",
+      "    out['char_date'])"
+    ],
+    "r": [
+      "out <- df",
+      "out$num_value <- as.numeric(out$char_num)",
+      "old_locale <- Sys.getlocale('LC_TIME')",
+      "on.exit(Sys.setlocale(",
+      "  'LC_TIME', old_locale))",
+      "changed <- Sys.setlocale('LC_TIME', 'C')",
+      "if (changed == '') stop('C unavailable')",
+      "out$date_value <- as.Date(",
+      "  out$char_date, format = '%d%b%Y')"
+    ]
+  },
+  "language_notes": {
+    "sas": "Macro transform supplies source/result names. Standalone reference uses LOCALE=en_US; numeric dates are displayed with DATE9.",
+    "python": "english_dates uses pd.to_datetime with %d%b%Y and temporarily sets LC_TIME=C. Returned date_value stays datetime; out is a copy.",
+    "r": "Inside translate, on.exit restores LC_TIME. Numeric values use as.numeric; as.Date returns Date objects. Source text is preserved."
+  },
+  "semantic_notes": [
+    {
+      "title": "A display is not a type",
+      "text": "2023-01-15 can be a string or a calendar value. Test numeric and datetime/Date types as well as the displayed values."
+    },
+    {
+      "title": "Added valid boundary case",
+      "text": "The added edge rows use -0.5, 0012, 29FEB2024 and 01MAR2024. They extend local validation, not the original prompts or trial scores."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original known-answer fixture",
+      "input": "Original three numeric/date text rows.",
+      "expected": "123, 456, 789; 2023-01-15, 2023-02-01, 2023-12-31.",
+      "catches": "Wrong informat, date ordering, result values or hard-coded replacements."
+    },
+    {
+      "id": "T2",
+      "name": "Added valid leap-day / number case",
+      "input": "-0.5 / 29FEB2024 and 0012 / 01MAR2024.",
+      "expected": "Numeric -0.5 and 12; calendar dates 2024-02-29 and 2024-03-01.",
+      "catches": "Integer-only conversion, loss of leap-day correctness or hard-coded fixture results."
+    },
+    {
+      "id": "T3",
+      "name": "Preserve strings, order and types",
+      "input": "All CSV rows in reverse order, retaining original source strings.",
+      "expected": "Input unchanged; source/order preserved; numeric result and datetime/Date result.",
+      "catches": "In-place mutation, sorting, loss of 0012 text, or formatted strings replacing calendar values."
+    }
+  ],
+  "scope": "Valid numeric strings up to eight characters and valid English DATE9 text. Calendar values are compared, not numeric storage epochs. Invalid-input policies and arbitrary informats remain outside scope.",
+  "references": [
+    {
+      "label": "SAS INPUT function",
+      "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/p19en16vskd2vhn1vwmxpxnglxxs.htm"
+    },
+    {
+      "label": "pandas.to_datetime",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html"
+    },
+    {
+      "label": "R as.Date",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/as.Date.html"
+    }
+  ]
+}

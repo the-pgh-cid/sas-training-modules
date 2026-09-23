@@ -1,0 +1,95 @@
+{
+  "module_id": 7,
+  "slug": "compress",
+  "comparison_intro": "Three separate character rules remove literal spaces, remove digits, or keep ASCII letters. The translations preserve the original text and calculate each result.",
+  "snippets": {
+    "sas": [
+      "%macro transform(in=, out=);",
+      "data &out;",
+      "  set &in;",
+      "  no_spaces = compress(text);",
+      "  no_digits = compress(text,",
+      "    '0123456789');",
+      "  only_letters = compress(text, '', 'ka');",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "def translate(df):",
+      "    out = df.copy(deep=True)",
+      "    text = out[\"text\"].str",
+      "    out[\"no_spaces\"] = text.replace(",
+      "        \" \", \"\", regex=False)",
+      "    out[\"no_digits\"] = text.replace(",
+      "        \"[0-9]\", \"\", regex=True)",
+      "    out[\"only_letters\"] = text.replace(",
+      "        \"[^A-Za-z]\", \"\", regex=True)",
+      "    return out"
+    ],
+    "r": [
+      "translate <- function(df) {",
+      "  out <- df",
+      "  out$no_spaces <- gsub(",
+      "    \" \", \"\", out$text, fixed=TRUE)",
+      "  out$no_digits <- gsub(",
+      "    \"[0-9]\", \"\", out$text)",
+      "  out$only_letters <- gsub(",
+      "    \"[^A-Za-z]\", \"\", out$text)",
+      "  out",
+      "}"
+    ]
+  },
+  "language_notes": {
+    "sas": "COMPRESS ka keeps letters. Fixed-width character results retain storage padding; comparison omits trailing padding. SAS harness is unexecuted.",
+    "python": "pandas uses literal replacement for spaces and regex character classes for digits/letters. A copy preserves the input DataFrame.",
+    "r": "Base R gsub replaces every match. fixed=TRUE treats the space literally; the two character-class patterns use regular expressions."
+  },
+  "semantic_notes": [
+    {
+      "title": "Keep and remove are different rules",
+      "text": "[^A-Za-z] removes every non-letter. Including 0-9 in the allowed class wrongly keeps digits; removing digits must retain punctuation and internal spaces."
+    },
+    {
+      "title": "Compare the intended characters",
+      "text": "ASCII only. Quotes in the CSV preserve leading and internal blanks. SAS trailing storage padding is excluded; Python/R checks preserve literal strings."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original fixture: all nine strings",
+      "input": "Original three text values, including \"ABC 123 XYZ\" and \"Phone: 555-1234\".",
+      "expected": "All three CSV result columns match, including \"ABC  XYZ\" (two spaces), \"Phone: -\" and letters-only \"Phone\".",
+      "catches": "Keeping digits for ka, dropping punctuation, or collapsing required internal spaces."
+    },
+    {
+      "id": "T2",
+      "name": "Added ASCII character boundaries",
+      "input": "Empty text; three spaces; \"123\"; \"aB_9- !\"; \" A 1 B\".",
+      "expected": "Empty/blank rules, digit removal, punctuation retention and letters-only filtering match every expected CSV string.",
+      "catches": "Alphanumeric filtering, only-first-match replacement, stripping leading blanks or conflating the three operations."
+    },
+    {
+      "id": "T3",
+      "name": "Preserve text, types and order",
+      "input": "All CSV strings in reverse order with custom row identifiers.",
+      "expected": "Source text unchanged; result columns remain character data; row order and all expected strings retained.",
+      "catches": "Input mutation, sorting, missing-string coercion or hard-coded result placement."
+    }
+  ],
+  "scope": "Original ASCII fixture plus added empty, blank-only, digit-only and punctuation/space probes. Compare content ignoring SAS trailing storage padding. Unicode classes and general SAS modifier behavior are excluded.",
+  "references": [
+    {
+      "label": "SAS COMPRESS",
+      "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/n0fcshr0ir3h73n1b845c4aq58hz.htm"
+    },
+    {
+      "label": "pandas str.replace",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.str.replace.html"
+    },
+    {
+      "label": "R gsub",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html"
+    }
+  ]
+}

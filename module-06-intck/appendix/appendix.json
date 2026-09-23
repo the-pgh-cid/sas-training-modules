@@ -1,0 +1,106 @@
+{
+  "module_id": 6,
+  "slug": "intck",
+  "comparison_intro": "Count ordinary discrete day, month and year boundaries. A one-day interval can cross a month or year, and reversed dates produce signed counts.",
+  "snippets": {
+    "sas": [
+      "%macro transform(in=, out=);",
+      "data &out;",
+      "  set &in;",
+      "  days = intck('day',",
+      "    start_date, end_date);",
+      "  months = intck('month',",
+      "    start_date, end_date);",
+      "  years = intck('year',",
+      "    start_date, end_date);",
+      "  format start_date end_date date9.;",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "def translate(df):",
+      "    out = df.copy(deep=True)",
+      "    out[\"start_date\"] = parse_date9(",
+      "        out[\"start_date\"])",
+      "    out[\"end_date\"] = parse_date9(",
+      "        out[\"end_date\"])",
+      "    s = out[\"start_date\"].dt",
+      "    e = out[\"end_date\"].dt",
+      "    out[\"days\"] = (",
+      "        out[\"end_date\"] - out[\"start_date\"]",
+      "    ).dt.days",
+      "    out[\"years\"] = e.year - s.year",
+      "    out[\"months\"] = (",
+      "        12*out[\"years\"] + e.month-s.month)",
+      "    return out"
+    ],
+    "r": [
+      "translate <- function(df) {",
+      "  out <- df",
+      "  out$start_date <- parse_date9(",
+      "    out$start_date)",
+      "  out$end_date <- parse_date9(out$end_date)",
+      "  s <- out$start_date",
+      "  e <- out$end_date",
+      "  out$days <- as.integer(e - s)",
+      "  out$years <- part(e,\"%Y\") - part(s,\"%Y\")",
+      "  out$months <- 12*out$years +",
+      "    part(e,\"%m\") - part(s,\"%m\")",
+      "  out",
+      "}"
+    ]
+  },
+  "language_notes": {
+    "sas": "INTCK defaults to discrete intervals. Loader reads DATE9. values; macro retains the SAS date columns. SAS harness is unexecuted.",
+    "python": "parse_date9 maps English month names before pd.to_datetime. The copied frame holds datetime columns; .dt supplies calendar components.",
+    "r": "parse_date9 maps English month names to Date values. part(x, format) extracts integer calendar components; both helpers are in reference.R."
+  },
+  "semantic_notes": [
+    {
+      "title": "Calendar boundaries, not durations",
+      "text": "Month counts come from year/month positions. Days divided by 30 and completed-anniversary calculations answer different questions."
+    },
+    {
+      "title": "Date representations differ",
+      "text": "SAS dates, pandas datetimes and R Date values store dates differently. Compare calendar meaning and boundary counts, preserving row order."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original fixture: all 18 counts",
+      "input": "Original six start/end pairs, including Jan 31 -> Feb 1 and Dec 31 -> Jan 1.",
+      "expected": "days [14,31,364,5,1,1]; months [0,1,11,0,1,1]; years [0,0,0,0,0,1].",
+      "catches": "Days/30 month estimates, elapsed-anniversary rules or incorrect year counting."
+    },
+    {
+      "id": "T2",
+      "name": "Added calendar boundary probes",
+      "input": "Same date; next day in same month; Feb 29 -> Mar 1; Dec 31 -> Jan 1; reversed year boundary.",
+      "expected": "[day,month,year]: [0,0,0], [1,0,0], [1,1,0], [1,1,1], [-1,-1,-1].",
+      "catches": "Off-by-one counts, leap-month mistakes, loss of sign and fixed-length month approximations."
+    },
+    {
+      "id": "T3",
+      "name": "Preserve dates, types and order",
+      "input": "All CSV pairs in reverse order with custom row identifiers.",
+      "expected": "Inputs untouched; output dates retain calendar meaning; counts numeric; row order and all expected results preserved.",
+      "catches": "Date truncation, input mutation, sorting, text result columns or position-dependent answers."
+    }
+  ],
+  "scope": "Valid English DATE9 inputs; date-only ordinary discrete day/month/year intervals, including same-date and reverse-direction probes. Continuous, shifted, multiplied, custom and datetime intervals are excluded.",
+  "references": [
+    {
+      "label": "SAS INTCK",
+      "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/p1md4mx2crzfaqn14va8kt7qvfhr.htm"
+    },
+    {
+      "label": "pandas to_datetime",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html"
+    },
+    {
+      "label": "R as.Date",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/as.Date.html"
+    }
+  ]
+}
