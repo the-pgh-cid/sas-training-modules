@@ -1,0 +1,195 @@
+APPENDIX ACCEPTANCE TESTS
+Executed UTC: 2026-09-23T09:38:25+00:00
+Python 3.12.14
+Reference implementations only. No SAS execution or new model trials.
+
+01 mean / python
+test_T1_original_fixture (__main__.ReferenceTests.test_T1_original_fixture) ... ok
+test_T2_added_boundary (__main__.ReferenceTests.test_T2_added_boundary) ... ok
+test_T3_preservation_type_order (__main__.ReferenceTests.test_T3_preservation_type_order) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.020s
+
+OK
+RESULT: PASS (3 tests)
+
+01 mean / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 original_fixture 
+PASS T2 added_boundary 
+PASS T3 preservation_type_order 
+Exactly 3 tests passed; R version 4.6.0 (2026-04-24); base R.
+RESULT: PASS (3 tests)
+
+02 substr / python
+test_T1_original_fixture (__main__.ReferenceTests.test_T1_original_fixture) ... ok
+test_T2_added_boundary (__main__.ReferenceTests.test_T2_added_boundary) ... ok
+test_T3_preservation_type_order (__main__.ReferenceTests.test_T3_preservation_type_order) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.027s
+
+OK
+RESULT: PASS (3 tests)
+
+02 substr / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 original_fixture 
+PASS T2 added_boundary 
+PASS T3 preservation_type_order 
+Exactly 3 tests passed; R version 4.6.0 (2026-04-24); base R.
+RESULT: PASS (3 tests)
+
+03 length / python
+test_T1_original_fixture (__main__.ReferenceTests.test_T1_original_fixture) ... ok
+test_T2_added_boundary (__main__.ReferenceTests.test_T2_added_boundary) ... ok
+test_T3_preservation_type_order (__main__.ReferenceTests.test_T3_preservation_type_order) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.031s
+
+OK
+RESULT: PASS (3 tests)
+
+03 length / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 original_fixture 
+PASS T2 added_boundary 
+PASS T3 preservation_type_order 
+Exactly 3 tests passed; R version 4.6.0 (2026-04-24); base R.
+RESULT: PASS (3 tests)
+
+04 cat / python
+test_T1_original_fixture (__main__.ReferenceTests.test_T1_original_fixture) ... ok
+test_T2_added_boundary (__main__.ReferenceTests.test_T2_added_boundary) ... ok
+test_T3_preservation_type_order (__main__.ReferenceTests.test_T3_preservation_type_order) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.023s
+
+OK
+RESULT: PASS (3 tests)
+
+04 cat / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 original_fixture 
+PASS T2 added_boundary 
+PASS T3 preservation_type_order 
+Exactly 3 tests passed; R version 4.6.0 (2026-04-24); base R.
+RESULT: PASS (3 tests)
+
+05 round / python
+test_T1_original_fixture_known_answers (__main__.ReferenceTests.test_T1_original_fixture_known_answers) ... ok
+test_T2_added_in_scope_boundaries (__main__.ReferenceTests.test_T2_added_in_scope_boundaries) ... ok
+test_T3_preservation_types_and_order (__main__.ReferenceTests.test_T3_preservation_types_and_order) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.013s
+
+OK
+RESULT: PASS (3 tests)
+
+05 round / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 
+PASS T2 
+PASS T3 
+3 named tests passed; R version 4.6.0 (2026-04-24)
+RESULT: PASS (3 tests)
+
+06 intck / python
+test_T1_original_fixture_known_answers (__main__.ReferenceTests.test_T1_original_fixture_known_answers) ... ok
+test_T2_added_in_scope_boundaries (__main__.ReferenceTests.test_T2_added_in_scope_boundaries) ... ok
+test_T3_preservation_types_and_order (__main__.ReferenceTests.test_T3_preservation_types_and_order) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.029s
+
+OK
+RESULT: PASS (3 tests)
+
+06 intck / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 
+PASS T2 
+PASS T3 
+3 named tests passed; R version 4.6.0 (2026-04-24)
+RESULT: PASS (3 tests)
+
+07 compress / python
+test_T1_original_fixture_known_answers (__main__.ReferenceTests.test_T1_original_fixture_known_answers) ... ok
+test_T2_added_in_scope_boundaries (__main__.ReferenceTests.test_T2_added_in_scope_boundaries) ... ok
+test_T3_preservation_types_and_order (__main__.ReferenceTests.test_T3_preservation_types_and_order) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.015s
+
+OK
+RESULT: PASS (3 tests)
+
+07 compress / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 
+PASS T2 
+PASS T3 
+3 named tests passed; R version 4.6.0 (2026-04-24)
+RESULT: PASS (3 tests)
+
+08 input / python
+test_T1_original_fixture (__main__.ReferenceTests.test_T1_original_fixture) ... ok
+test_T2_valid_leap_day_and_numeric_boundary (__main__.ReferenceTests.test_T2_valid_leap_day_and_numeric_boundary) ... ok
+test_T3_source_order_and_result_types (__main__.ReferenceTests.test_T3_source_order_and_result_types) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.022s
+
+OK
+RESULT: PASS (3 tests)
+
+08 input / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 original_fixture
+PASS T2 valid_leap_day_and_numeric_boundary
+PASS T3 source_order_and_result_types
+RESULT: PASS (3 tests)
+
+09 firstvar / python
+test_T1_original_fixture (__main__.ReferenceTests.test_T1_original_fixture) ... ok
+test_T2_single_row_has_both_explicit_flags (__main__.ReferenceTests.test_T2_single_row_has_both_explicit_flags) ... ok
+test_T3_preserve_rows_and_integer_flags (__main__.ReferenceTests.test_T3_preserve_rows_and_integer_flags) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.015s
+
+OK
+RESULT: PASS (3 tests)
+
+09 firstvar / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 original_fixture
+PASS T2 single_row_has_both_explicit_flags
+PASS T3 preserve_rows_and_integer_flags
+RESULT: PASS (3 tests)
+
+10 lag / python
+test_T1_original_fixture (__main__.ReferenceTests.test_T1_original_fixture) ... ok
+test_T2_single_row_has_no_history (__main__.ReferenceTests.test_T2_single_row_has_no_history) ... ok
+test_T3_preserve_order_missing_and_numeric_types (__main__.ReferenceTests.test_T3_preserve_order_missing_and_numeric_types) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.016s
+
+OK
+RESULT: PASS (3 tests)
+
+10 lag / r
+Runtime: R version 4.6.0 (2026-04-24) [WebR]
+PASS T1 original_fixture
+PASS T2 single_row_has_no_history
+PASS T3 preserve_order_missing_and_numeric_types
+RESULT: PASS (3 tests)
+
+PASSED: Python 30; R 30
+SAS checks supplied but not executed.
+OVERALL: PASS

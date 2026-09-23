@@ -1,0 +1,6 @@
+"case_id","row_id","text","expected_text","expected_first_three","expected_middle","expected_from_seventh"
+"fixture","f1","ABCDEFGHIJ","ABCDEFGHIJ          ","ABC","EFGH","GHIJ          "
+"fixture","f2","HelloWorld","HelloWorld          ","Hel","oWor","orld          "
+"fixture","f3","SAS-to-Python","SAS-to-Python       ","SAS","to-P","-Python       "
+"edge","e1","AB","AB                  ","AB ","    ","              "
+"edge","e2","0123456789ABCDEFGHIJ","0123456789ABCDEFGHIJ","012","4567","6789ABCDEFGHIJ"

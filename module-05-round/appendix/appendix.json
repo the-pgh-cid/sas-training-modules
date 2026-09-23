@@ -1,0 +1,81 @@
+{
+  "module_id": 5,
+  "slug": "round",
+  "comparison_intro": "The same five non-halfway values round to the same integers. These translations calculate a result column while retaining the input values.",
+  "snippets": {
+    "sas": [
+      "%macro transform(in=, out=);",
+      "data &out;",
+      "  set &in;",
+      "  rounded = round(value);",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "def translate(df):",
+      "    out = df.copy(deep=True)",
+      "    out[\"rounded\"] = out[\"value\"].round(0)",
+      "    return out"
+    ],
+    "r": [
+      "translate <- function(df) {",
+      "  out <- df",
+      "  out$rounded <- round(out$value, 0)",
+      "  out",
+      "}"
+    ]
+  },
+  "language_notes": {
+    "sas": "ROUND uses unit 1 by default. The macro reads a SAS dataset and writes a new one. SAS harness is supplied but unexecuted.",
+    "python": "pandas Series.round(0) computes nearest integers on a copied DataFrame. Numeric displays such as 2 and 2.0 are equivalent here.",
+    "r": "Base R round(value, 0) returns numeric results. Its halfway behavior must not be generalized to SAS ROUND."
+  },
+  "semantic_notes": [
+    {
+      "title": "Keep the scope explicit",
+      "text": "The original five values and the added integer-boundary probes exclude halfway cases. Other units and SAS floating-point adjustments are outside scope."
+    },
+    {
+      "title": "Output and explanation differ",
+      "text": "Matching results on these rows do not prove all ROUND implementations equivalent. pandas and R use ties-to-even; SAS documents a different exact-tie rule."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original fixture: known answers",
+      "input": "Original five values: 2.3, 2.7, -1.4, -1.6, 3.0.",
+      "expected": "rounded = [2, 3, -1, -2, 3].",
+      "catches": "Wrong direction, truncation, missed negative values or hard-coded mismatched outputs."
+    },
+    {
+      "id": "T2",
+      "name": "Added probes around integers",
+      "input": "Added validation: -2.01, -1.99, -0.01, 0.01, 1.99, 2.01. No halfway values.",
+      "expected": "rounded = [-2, -2, 0, 0, 2, 2].",
+      "catches": "Floor, ceiling or truncation substituted for nearest-integer rounding."
+    },
+    {
+      "id": "T3",
+      "name": "Preserve inputs, types and order",
+      "input": "All CSV rows in reverse order, with custom row identifiers.",
+      "expected": "Fresh result; source values unchanged; original order retained; rounded numeric; reordered expected values match.",
+      "catches": "Input mutation, sorting, result text instead of numbers, or position-dependent/hard-coded answers."
+    }
+  ],
+  "scope": "Nearest-integer rounding for the original five finite, non-halfway values plus explicit non-halfway validation probes. Exact/near-halfway cases, other units and general SAS equivalence remain excluded.",
+  "references": [
+    {
+      "label": "SAS ROUND",
+      "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/p0tj6cmga7p8qln1ejh6ebevm0c9.htm"
+    },
+    {
+      "label": "pandas Series.round",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.round.html"
+    },
+    {
+      "label": "R round",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html"
+    }
+  ]
+}

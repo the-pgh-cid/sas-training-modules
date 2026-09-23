@@ -1,0 +1,6 @@
+"case_id","row_id","x","y","z","expected_average"
+"fixture","f1","1","2","3","2"
+"fixture","f2","4","__MISSING__","6","5"
+"fixture","f3","__MISSING__","__MISSING__","__MISSING__","__MISSING__"
+"edge","e1","0","__MISSING__","__MISSING__","0"
+"edge","e2","__MISSING__","-6","__MISSING__","-6"

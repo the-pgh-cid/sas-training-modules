@@ -1,0 +1,86 @@
+{
+  "module_id": 1,
+  "slug": "mean",
+  "comparison_intro": "One behavior contract, three implementations. Run the companion files and the same three acceptance tests against shared fixture data.",
+  "snippets": {
+    "sas": [
+      "%macro translate(in=, out=);",
+      "data &out;",
+      "  set &in;",
+      "  average = mean(x, y, z);",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "def translate(df):",
+      "    out = df.copy(deep=True)",
+      "    cols = [\"x\", \"y\", \"z\"]",
+      "    out[\"average\"] = out[cols].mean(",
+      "        axis=1, skipna=True)",
+      "    return out"
+    ],
+    "r": [
+      "translate <- function(df) {",
+      "  out <- df",
+      "  cols <- c(\"x\", \"y\", \"z\")",
+      "  a <- rowMeans(out[cols], na.rm=TRUE)",
+      "  a[is.nan(a)] <- NA_real_",
+      "  out$average <- a",
+      "  out",
+      "}"
+    ]
+  },
+  "language_notes": {
+    "sas": "SAS MEAN excludes numeric missing; an all-missing row remains missing. Loader maps __MISSING__ to SAS . before translation.",
+    "python": "pandas mean(axis=1, skipna=True) averages across named inputs; all-missing rows yield NaN. Loader decodes the numeric sentinel.",
+    "r": "Base R rowMeans(..., na.rm=TRUE) returns NaN for an all-missing row; normalize it to NA_real_. Both are detected by is.na()."
+  },
+  "semantic_notes": [
+    {
+      "title": "Missing is not zero",
+      "text": "The denominator is the number of observed values. A row with only one observed zero returns zero, while an all-missing row stays missing."
+    },
+    {
+      "title": "Preserve the inputs",
+      "text": "The translation adds average to a new table. It retains x, y, z, row identifiers and row order, including their missing positions."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original three-row fixture",
+      "input": "Complete, partly missing and all-missing rows from the original example.",
+      "expected": "average = [2, 5, missing].",
+      "catches": "Wrong axis, propagating one missing input, or replacing all-missing with zero."
+    },
+    {
+      "id": "T2",
+      "name": "Added single-observation boundary",
+      "input": "Added validation rows [0, missing, missing] and [missing, -6, missing].",
+      "expected": "average = [0, -6].",
+      "catches": "Dividing by three, treating zero as missing, or excluding negative values."
+    },
+    {
+      "id": "T3",
+      "name": "Preservation, numeric type and order",
+      "input": "All shared rows in reverse order; non-default Python index.",
+      "expected": "Original input values/missing masks retained; row order retained; average numeric.",
+      "catches": "Input mutation, row loss/reordering, index reset, or text instead of numeric results."
+    }
+  ],
+  "scope": "Ordinary SAS numeric missing and finite numeric x/y/z values; no special missing codes, weights or grouping. Added edge rows are new validation examples, not new model trials.",
+  "references": [
+    {
+      "label": "SAS MEAN",
+      "url": "https://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/a000245914.htm"
+    },
+    {
+      "label": "pandas mean",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html"
+    },
+    {
+      "label": "R rowMeans",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/colSums.html"
+    }
+  ]
+}

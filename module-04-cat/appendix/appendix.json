@@ -1,0 +1,98 @@
+{
+  "module_id": 4,
+  "slug": "cat",
+  "comparison_intro": "One behavior contract, three implementations. Run the companion files and the same three acceptance tests against shared fixture data.",
+  "snippets": {
+    "sas": [
+      "%macro translate(in=, out=);",
+      "data &out;",
+      "  length first middle last $8",
+      "         name1 name2 $24;",
+      "  set &in;",
+      "  name1 = cat(first, middle, last);",
+      "  name2 = catx(' ', first, middle, last);",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "def translate(df):",
+      "    out = df.copy(deep=True)",
+      "    cols = [\"first\", \"middle\", \"last\"]",
+      "    for col in cols:",
+      "        out[col] = out[col].str.ljust(8)",
+      "    out[\"name1\"] = (",
+      "        out[\"first\"] + out[\"middle\"]",
+      "        + out[\"last\"])",
+      "    out[\"name2\"] = out[cols].apply(",
+      "        catx_space, axis=1).str.ljust(24)",
+      "    return out"
+    ],
+    "r": [
+      "translate <- function(df) {",
+      "  out <- df",
+      "  cols <- c(\"first\", \"middle\", \"last\")",
+      "  for (col in cols)",
+      "    out[[col]] <- sprintf(",
+      "      \"%-8s\", out[[col]])",
+      "  out$name1 <- paste0(",
+      "    out$first, out$middle, out$last)",
+      "  a <- apply(out[cols], 1, catx_space)",
+      "  out$name2 <- sprintf(\"%-24s\", a)",
+      "  out",
+      "}"
+    ]
+  },
+  "language_notes": {
+    "sas": "Input fields have width 8 and both outputs width 24. CAT preserves blanks; CATX trims outer blanks and skips blank fields.",
+    "python": "catx_space helper in reference.py strips ordinary spaces, drops blank parts and joins with one space. It does not trim CAT.",
+    "r": "catx_space helper in reference.R uses trimws(..., whitespace=\" \"), removes empty parts, then paste(..., collapse=\" \")."
+  },
+  "semantic_notes": [
+    {
+      "title": "CAT and CATX have different jobs",
+      "text": "CAT joins the three padded fields exactly. CATX trims ordinary outer spaces, omits blank fields and inserts one separator between retained fields."
+    },
+    {
+      "title": "Missing belongs to input decoding",
+      "text": "CSV blank fields represent the original missing character values. Original unquoted input periods are decoded before translation; stored text is not blindly cleaned."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original three-row fixture",
+      "input": "John/Q/Public, Jane/blank/Doe and Bob/blank/Smith.",
+      "expected": "Exact CAT strings preserve 8+8+8 positions; padded CATX values read John Q Public, Jane Doe and Bob Smith.",
+      "catches": "Dropping CAT padding, inserting separators for blank middle fields, or changing the readable CATX names."
+    },
+    {
+      "id": "T2",
+      "name": "Added blank/space boundary",
+      "input": "Added outer spaces, all blank fields, internal space Mary Ann, and literal tabs.",
+      "expected": "CAT preserves all stored positions; CATX omits empty fields and retains internal spaces and tabs.",
+      "catches": "Broad whitespace stripping, doubled separators, or treating an all-blank CATX result as missing numeric data."
+    },
+    {
+      "id": "T3",
+      "name": "Preservation, widths and order",
+      "input": "All shared rows reversed; original caller data saved.",
+      "expected": "Caller unchanged; input widths 8 and output widths 24; exact stored values and row order retained.",
+      "catches": "Readable-name-only checks, missing output padding, input mutation or row reordering."
+    }
+  ],
+  "scope": "ASCII character fields at most 8 positions; results fit width 24. CSV inputs are already decoded, with blanks for character missing. No numeric CAT coercion, overflow or Unicode equivalence claim.",
+  "references": [
+    {
+      "label": "SAS CAT family",
+      "url": "https://support.sas.com/kb/46/672.html"
+    },
+    {
+      "label": "pandas ljust",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.str.ljust.html"
+    },
+    {
+      "label": "R trimws",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/base/html/trimws.html"
+    }
+  ]
+}

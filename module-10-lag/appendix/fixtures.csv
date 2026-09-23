@@ -1,0 +1,7 @@
+case_id,id,value,expected_prev_value,expected_prev2_value,expected_change
+"fixture",1,10,"__MISSING__","__MISSING__","__MISSING__"
+"fixture",2,15,10,"__MISSING__",5
+"fixture",3,12,15,10,-3
+"fixture",4,18,12,15,6
+"fixture",5,20,18,12,2
+"edge",41,7,"__MISSING__","__MISSING__","__MISSING__"

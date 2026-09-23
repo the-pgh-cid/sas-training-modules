@@ -1,0 +1,89 @@
+{
+  "module_id": 10,
+  "slug": "lag",
+  "comparison_intro": "Reproduce earlier-row values only where each SAS LAG occurrence executes on every row. Preserve missing history and the original sequence.",
+  "snippets": {
+    "sas": [
+      "%macro transform(in=, out=);",
+      "data &out;",
+      "  set &in;",
+      "  prev_value = lag(value);",
+      "  prev2_value = lag2(value);",
+      "  change = value - prev_value;",
+      "run;",
+      "%mend;"
+    ],
+    "python": [
+      "out = df.copy(deep=True)",
+      "out['prev_value'] = out['value'].shift(1)",
+      "out['prev2_value'] = out['value'].shift(2)",
+      "out['change'] = (",
+      "    out['value'] - out['prev_value'])"
+    ],
+    "r": [
+      "lag_rows <- function(x, k) {",
+      "  n <- length(x)",
+      "  if (n == 0L) return(numeric(0))",
+      "  k <- min(as.integer(k), n)",
+      "  c(rep(NA_real_, k), head(x, n - k))",
+      "}",
+      "out <- df",
+      "out$prev_value <- lag_rows(out$value, 1L)",
+      "out$prev2_value <- lag_rows(out$value, 2L)",
+      "out$change <- out$value - out$prev_value"
+    ]
+  },
+  "language_notes": {
+    "sas": "Macro transform supplies source/result names. Each LAG occurrence maintains a separate queue initialized with missing values.",
+    "python": "Series.shift with no frequency moves values by row. Out is a copy; arithmetic preserves unavailable history as missing.",
+    "r": "lag_rows pads with NA and clamps the lag for short vectors. stats::lag changes time-series attributes and is not this row-shift operation."
+  },
+  "semantic_notes": [
+    {
+      "title": "Missing means no prior observation",
+      "text": "Do not fill the first prior value with zero: that manufactures a change of 10. Keep the two missing starting positions of the two-row lag."
+    },
+    {
+      "title": "Respect call history",
+      "text": "Conditional SAS LAG calls advance their queue only when executed. Such a program requires separate analysis; unconditional shifts are insufficient."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Original known-answer fixture",
+      "input": "Values 10,15,12,18,20 in id order 1-5.",
+      "expected": "lag1=[NA,10,15,12,18]; lag2=[NA,NA,10,15,12]; change=[NA,5,-3,6,2].",
+      "catches": "Wrong lag direction, wraparound, missing-to-zero fills or reordered predecessors."
+    },
+    {
+      "id": "T2",
+      "name": "Added one-row data set",
+      "input": "One row: id=41, value=7.",
+      "expected": "Both previous-value columns and change are missing; one row remains.",
+      "catches": "Lag padding longer than input, zero filling, wraparound and invalid short-vector indexing."
+    },
+    {
+      "id": "T3",
+      "name": "Preserve order, types and missing",
+      "input": "Original rows with non-default Python/R labels; nullable Python numeric values.",
+      "expected": "Input unchanged; id/value order preserved; numeric results and exact missing masks.",
+      "catches": "Input mutation, row sorting/dropping, text outputs or missing-position drift."
+    }
+  ],
+  "scope": "Only the supplied per-row SAS LAG and LAG2 calls. A singleton is an added local boundary test. Conditional calls, retained targets and automatic resets at BY boundaries need separate analysis.",
+  "references": [
+    {
+      "label": "SAS LAG queue semantics",
+      "url": "https://support.sas.com/documentation/cdl/en/lefunctionsref/63354/HTML/default/n0l66p5oqex1f2n1quuopdvtcjqb.htm"
+    },
+    {
+      "label": "pandas.Series.shift",
+      "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.shift.html"
+    },
+    {
+      "label": "R lag (time series)",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lag.html"
+    }
+  ]
+}
