@@ -1,0 +1,11 @@
+This is a tested authoring environment, not an instruction to upgrade the enterprise environment.
+Python 3.13.5
+pandas 2.2.3
+NumPy 2.3.5
+nbformat 5.10.4
+nbclient 0.10.4
+nbconvert 7.17.1
+
+Notebook execution needs an approved Python kernel with pandas.
+Use the team's approved versions, rerun the checks, and record those actual versions.
+No package installation cell or network/API request is included in the workbook.

@@ -1,0 +1,23 @@
+{
+  "00_Review_packet.pdf": "1e8b95b6bd69f3b168916e4be1ae85f9204513298b2ce07e93b0593aeea657a7",
+  "00_START_HERE.html": "cbb805a15281719f31f74a9373d9e1c1397d314622c09a324241504f3ac03940",
+  "01_Concept_deck.pdf": "8f20f58f478bea4e50146899143fa11c9a31fb71dd84d827a5500a2af28d6348",
+  "01_Concept_deck.pptx": "e1626b1bacb34e059d2aa57e590cf39caeea6e0cfd1dddc1256660a13df9b2c9",
+  "02_Field_guide.docx": "ddd7d74282566a5285dd1cce3ee2f6627449fa97cedc3bc5517a4fa1d6a6ab03",
+  "02_Field_guide.pdf": "315319f13b177aba17992f22610ab28c66b06c543cadd67cb4c79f20993a1fa8",
+  "03_Desk_reference.docx": "b09fccba1bd901ef5c55a2c76ace44de5dd0dd4e134661ed56bbee5668494fb8",
+  "03_Desk_reference.pdf": "213bbf5531965de47b12f2e7c21c03a4f1f6cf1942420e5ef604004a15195b29",
+  "04_MEAN_workbook.html": "57fa5ac497ed62f1e07e2a76d47f8a40dbfd909ce2e4f91fc6fe1f216a0ce23b",
+  "04_MEAN_workbook.ipynb": "66c2e88e267a2ab731e4b681a7ef0f2d9c0cbf3524f29c8aecb99cb192117f72",
+  "notebook/README.txt": "afc1fef62205257d0fe5d5ec22ee65b11fbf54f9f10b8dd76e4bf0afecc9df5f",
+  "notebook/environment-tested.txt": "207c21f77611df4d29549d5180f3268b81ff94eeaf2a174bec4462bf296e0b33",
+  "notebook/fixtures.csv": "f09d8983a237d25b4ab71a4c8f8f1d27857b83d9b408e1d9f235218775e19655",
+  "notebook/mean_reference.py": "6440878de09bb99feefeb81cccce271971940952a381901b980a9416e6d68502",
+  "notebook/mean_source.sas": "30dbfebbb2a6e34500a6395d5f2557e26d1d6c4398359fe544c793180a7871a6",
+  "notebook/package-validation.json": "850cfea484d1833d902f97c8c6c413d6618c57a53e7a370a9c0f379f8bf32908",
+  "notebook/pilot_checks.py": "7b6bac4585222e7fe879b41e3f51e5e6214663faea76e63b56d7e83b063b9d56",
+  "notebook/source-provenance.json": "df9d443847ef75ee82872cad119ae135eb2ece836345a59fe0283bf56bd76882",
+  "notebook/test_reference.py": "13a2ed9b1d2e0850b38603b233d10bcbc0d71ed0374e9bf5136384469f019f4c",
+  "notebook/validation-results.txt": "757c18ab0fc648c9fdb10343684f21617e8dc9a45a1ba8e98eff6570fe8d7e4c",
+  "notebook/validation-summary.json": "7b41798831a04a3ea8734aea418624a066589e25e80a6582bb5c6f4d59b977d0"
+}

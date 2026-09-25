@@ -1,0 +1,368 @@
+MEAN PILOT: LOCAL VALIDATION RECORD
+Run date (UTC): 2026-09-25T13:29:40.232219+00:00
+Python: 3.13.5
+pandas: 2.2.3
+These are authored reference and diagnostic runs, not live LLM trials.
+SAS execution: not performed. Bedrock calls: none.
+
+1. Companion reference from a clean working directory
+
+test_T1_known_answers (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers) ... ok
+test_T2_discriminating_cases (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases) ... ok
+test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+OK
+
+2. Harness checks against deliberately broken instructor-authored functions
+Expected outcome: each function must fail at least one named test.
+
+DIAGNOSTIC: zero_fill
+{"name": "zero_fill", "tests_run": 3, "failures": 3, "errors": 0, "rejected": true}
+test_T1_known_answers (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers) ... FAIL
+test_T2_discriminating_cases (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases) ... FAIL
+test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation) ... FAIL
+
+======================================================================
+FAIL: test_T1_known_answers (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 46, in test_T1_known_answers
+    check_values(actual, subset)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 36, in check_values
+    pd.testing.assert_series_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        actual["average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        expected_cases["expected_average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        check_names=False, check_dtype=False, check_exact=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 997, in assert_series_equal
+    assert_numpy_array_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        lv,
+        ^^^
+    ...<3 lines>...
+        index_values=left.index,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 690, in assert_numpy_array_equal
+    _raise(left, right, err_msg)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 684, in _raise
+    raise_assert_detail(obj, msg, left, right, index_values=index_values)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 614, in raise_assert_detail
+    raise AssertionError(msg)
+AssertionError: Series are different
+
+Series values are different (66.66667 %)
+[index]: [0, 1, 2]
+[left]:  [2.0, 3.3333333333333335, 0.0]
+[right]: [2.0, 5.0, nan]
+
+======================================================================
+FAIL: test_T2_discriminating_cases (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 52, in test_T2_discriminating_cases
+    check_values(actual, subset)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 36, in check_values
+    pd.testing.assert_series_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        actual["average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        expected_cases["expected_average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        check_names=False, check_dtype=False, check_exact=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 997, in assert_series_equal
+    assert_numpy_array_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        lv,
+        ^^^
+    ...<3 lines>...
+        index_values=left.index,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 690, in assert_numpy_array_equal
+    _raise(left, right, err_msg)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 684, in _raise
+    raise_assert_detail(obj, msg, left, right, index_values=index_values)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 614, in raise_assert_detail
+    raise AssertionError(msg)
+AssertionError: Series are different
+
+Series values are different (50.0 %)
+[index]: [0, 1]
+[left]:  [0.0, -2.0]
+[right]: [0.0, -6.0]
+
+======================================================================
+FAIL: test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 72, in test_T3_preservation
+    check_values(actual, subset)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 36, in check_values
+    pd.testing.assert_series_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        actual["average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        expected_cases["expected_average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        check_names=False, check_dtype=False, check_exact=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 997, in assert_series_equal
+    assert_numpy_array_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        lv,
+        ^^^
+    ...<3 lines>...
+        index_values=left.index,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 690, in assert_numpy_array_equal
+    _raise(left, right, err_msg)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 684, in _raise
+    raise_assert_detail(obj, msg, left, right, index_values=index_values)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 614, in raise_assert_detail
+    raise AssertionError(msg)
+AssertionError: Series are different
+
+Series values are different (60.0 %)
+[index]: [0, 1, 2, 3, 4]
+[left]:  [-2.0, 0.0, 0.0, 3.3333333333333335, 2.0]
+[right]: [-6.0, 0.0, nan, 5.0, 2.0]
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+FAILED (failures=3)
+
+
+DIAGNOSTIC: wrong_axis
+{"name": "wrong_axis", "tests_run": 3, "failures": 3, "errors": 0, "rejected": true}
+test_T1_known_answers (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers) ... FAIL
+test_T2_discriminating_cases (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases) ... FAIL
+test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation) ... FAIL
+
+======================================================================
+FAIL: test_T1_known_answers (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 46, in test_T1_known_answers
+    check_values(actual, subset)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 36, in check_values
+    pd.testing.assert_series_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        actual["average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        expected_cases["expected_average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        check_names=False, check_dtype=False, check_exact=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 997, in assert_series_equal
+    assert_numpy_array_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        lv,
+        ^^^
+    ...<3 lines>...
+        index_values=left.index,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 690, in assert_numpy_array_equal
+    _raise(left, right, err_msg)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 684, in _raise
+    raise_assert_detail(obj, msg, left, right, index_values=index_values)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 614, in raise_assert_detail
+    raise AssertionError(msg)
+AssertionError: Series are different
+
+Series values are different (66.66667 %)
+[index]: [0, 1, 2]
+[left]:  [nan, nan, nan]
+[right]: [2.0, 5.0, nan]
+
+======================================================================
+FAIL: test_T2_discriminating_cases (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 52, in test_T2_discriminating_cases
+    check_values(actual, subset)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 36, in check_values
+    pd.testing.assert_series_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        actual["average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        expected_cases["expected_average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        check_names=False, check_dtype=False, check_exact=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 997, in assert_series_equal
+    assert_numpy_array_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        lv,
+        ^^^
+    ...<3 lines>...
+        index_values=left.index,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 690, in assert_numpy_array_equal
+    _raise(left, right, err_msg)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 684, in _raise
+    raise_assert_detail(obj, msg, left, right, index_values=index_values)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 614, in raise_assert_detail
+    raise AssertionError(msg)
+AssertionError: Series are different
+
+Series values are different (100.0 %)
+[index]: [0, 1]
+[left]:  [nan, nan]
+[right]: [0.0, -6.0]
+
+======================================================================
+FAIL: test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 72, in test_T3_preservation
+    check_values(actual, subset)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 36, in check_values
+    pd.testing.assert_series_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        actual["average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        expected_cases["expected_average"].reset_index(drop=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        check_names=False, check_dtype=False, check_exact=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 997, in assert_series_equal
+    assert_numpy_array_equal(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        lv,
+        ^^^
+    ...<3 lines>...
+        index_values=left.index,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 690, in assert_numpy_array_equal
+    _raise(left, right, err_msg)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 684, in _raise
+    raise_assert_detail(obj, msg, left, right, index_values=index_values)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/pyvenv/lib/python3.13/site-packages/pandas/_testing/asserters.py", line 614, in raise_assert_detail
+    raise AssertionError(msg)
+AssertionError: Series are different
+
+Series values are different (80.0 %)
+[index]: [0, 1, 2, 3, 4]
+[left]:  [nan, nan, nan, nan, nan]
+[right]: [-6.0, 0.0, nan, 5.0, 2.0]
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.007s
+
+FAILED (failures=3)
+
+
+DIAGNOSTIC: input_mutation
+{"name": "input_mutation", "tests_run": 3, "failures": 1, "errors": 0, "rejected": true}
+test_T1_known_answers (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers) ... ok
+test_T2_discriminating_cases (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases) ... ok
+test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation) ... FAIL
+
+======================================================================
+FAIL: test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 62, in test_T3_preservation
+    self.assertIsNot(actual, data)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: unexpectedly identical:      case_id row_id    x    y    z  average
+101     edge     e2  NaN -6.0  NaN     -6.0
+108     edge     e1  0.0  NaN  NaN      0.0
+115  fixture     f3  NaN  NaN  NaN      NaN
+122  fixture     f2  4.0  NaN  6.0      5.0
+129  fixture     f1  1.0  2.0  3.0      2.0
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.008s
+
+FAILED (failures=1)
+
+
+DIAGNOSTIC: reset_index
+{"name": "reset_index", "tests_run": 3, "failures": 1, "errors": 0, "rejected": true}
+test_T1_known_answers (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers) ... ok
+test_T2_discriminating_cases (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases) ... ok
+test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation) ... FAIL
+
+======================================================================
+FAIL: test_T3_preservation (pilot_checks.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/sas_collaboration_pilot_v0.1/notebook/pilot_checks.py", line 65, in test_T3_preservation
+    self.assertTrue(actual.index.equals(before.index))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+FAILED (failures=1)
+
+3.1 Standalone notebook, fresh kernel and empty working directory
+Python: 3.13.5
+pandas: 2.2.3
+Execution mode: local Python teaching reference
+Bedrock calls: none; SAS execution: not performed
+test_T1_known_answers (__main__.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers) ... ok
+test_T2_discriminating_cases (__main__.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases) ... ok
+test_T3_preservation (__main__.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.008s
+
+OK
+All three named acceptance tests passed for the callable just executed.
+Optional diagnostic example not executed.
+
+3.2 Standalone notebook, fresh kernel and empty working directory
+Python: 3.13.5
+pandas: 2.2.3
+Execution mode: local Python teaching reference
+Bedrock calls: none; SAS execution: not performed
+test_T1_known_answers (__main__.run_acceptance.<locals>.AcceptanceTests.test_T1_known_answers) ... ok
+test_T2_discriminating_cases (__main__.run_acceptance.<locals>.AcceptanceTests.test_T2_discriminating_cases) ... ok
+test_T3_preservation (__main__.run_acceptance.<locals>.AcceptanceTests.test_T3_preservation) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+OK
+All three named acceptance tests passed for the callable just executed.
+Optional diagnostic example not executed.

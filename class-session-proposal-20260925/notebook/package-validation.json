@@ -1,0 +1,19 @@
+{
+  "edition": "Pilot v0.1, team review, 25 September 2026",
+  "pdf_pages": {
+    "01_Concept_deck.pdf": 8,
+    "02_Field_guide.pdf": 4,
+    "03_Desk_reference.pdf": 2,
+    "00_Review_packet.pdf": 14
+  },
+  "visual_review": "All deck slides and printable pages inspected; HTML previews inspected.",
+  "pptx_overflow_check": "passed",
+  "pptx_presenter_notes": 8,
+  "notebook_reference": "Three named acceptance tests passed.",
+  "fresh_kernel_runs": 2,
+  "instructor_authored_negative_implementations_rejected": 4,
+  "local_html_links": "all destinations verified",
+  "model_execution": "No Bedrock calls or captured model responses.",
+  "sas_execution": "Not performed.",
+  "repository_mutation": "None."
+}

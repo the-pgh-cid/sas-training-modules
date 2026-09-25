@@ -1,0 +1,42 @@
+{
+  "version": "0.1",
+  "date": "2026-09-25",
+  "reference_named_tests": 3,
+  "reference_status": "passed",
+  "standalone_fresh_kernel_runs": 2,
+  "standalone_status": "passed",
+  "diagnostics": [
+    {
+      "name": "zero_fill",
+      "tests_run": 3,
+      "failures": 3,
+      "errors": 0,
+      "rejected": true
+    },
+    {
+      "name": "wrong_axis",
+      "tests_run": 3,
+      "failures": 3,
+      "errors": 0,
+      "rejected": true
+    },
+    {
+      "name": "input_mutation",
+      "tests_run": 3,
+      "failures": 1,
+      "errors": 0,
+      "rejected": true
+    },
+    {
+      "name": "reset_index",
+      "tests_run": 3,
+      "failures": 1,
+      "errors": 0,
+      "rejected": true
+    }
+  ],
+  "sas_execution": "not performed",
+  "bedrock_calls": "none",
+  "live_model_responses": "not captured",
+  "notes": "Acceptance is limited to this fixed teaching fixture and stated requirements."
+}

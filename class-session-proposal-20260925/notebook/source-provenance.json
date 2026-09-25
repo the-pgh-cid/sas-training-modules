@@ -1,0 +1,55 @@
+{
+  "pilot_version": "0.1",
+  "date": "2026-09-25",
+  "repository": "https://github.com/the-pgh-cid/sas-training-modules",
+  "source_commit": "85c3041e74ddd7ef80086add2b29fa49292bebea",
+  "fixture_git_blob_sha1": "fcd27f5fc32a142cf42fdf15d0f648780a1455de",
+  "fixture_sha256": "f09d8983a237d25b4ab71a4c8f8f1d27857b83d9b408e1d9f235218775e19655",
+  "upstream_reference_git_blob_sha1": "7c674dde9c17b2f8ec4373a717d06f6cee44152b",
+  "upstream_tests_git_blob_sha1": "578467e47dacdfdf7e960abb91691c40b22fe034",
+  "adaptation_notes": [
+    "Fixture bytes preserved exactly, including CRLF line endings.",
+    "Python core follows upstream translate; exposed as candidate(df) for teaching.",
+    "Harness is a callable-based adaptation with explicit float64 inputs and exact fixture comparisons.",
+    "Notebook embeds the same fixture, reference and harness so its .ipynb runs without adjacent files.",
+    "No live Bedrock trial, SAS run, or production-equivalence claim is made."
+  ],
+  "sources": {
+    "SAS": [
+      "SAS Institute: MEAN function",
+      "https://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/a000245914.htm"
+    ],
+    "pandas": [
+      "pandas: DataFrame.mean",
+      "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html"
+    ],
+    "Missing": [
+      "pandas: Working with missing data",
+      "https://pandas.pydata.org/docs/user_guide/missing_data.html"
+    ],
+    "Jupyter": [
+      "Project Jupyter: The Jupyter Notebook",
+      "https://jupyter-notebook.readthedocs.io/en/stable/notebook.html"
+    ],
+    "AWS": [
+      "AWS: Inference parameters",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/inference-parameters.html"
+    ],
+    "Project": [
+      "SAS training modules: appendix design",
+      "https://github.com/the-pgh-cid/sas-training-modules/blob/85c3041e74ddd7ef80086add2b29fa49292bebea/APPENDICES.md"
+    ],
+    "Fixture": [
+      "Module 01: shared MEAN fixtures",
+      "https://github.com/the-pgh-cid/sas-training-modules/blob/85c3041e74ddd7ef80086add2b29fa49292bebea/module-01-mean/appendix/fixtures.csv"
+    ],
+    "Reference": [
+      "Module 01: Python reference",
+      "https://github.com/the-pgh-cid/sas-training-modules/blob/85c3041e74ddd7ef80086add2b29fa49292bebea/module-01-mean/appendix/reference.py"
+    ],
+    "Tests": [
+      "Module 01: Python acceptance tests",
+      "https://github.com/the-pgh-cid/sas-training-modules/blob/85c3041e74ddd7ef80086add2b29fa49292bebea/module-01-mean/appendix/test_reference.py"
+    ]
+  }
+}
